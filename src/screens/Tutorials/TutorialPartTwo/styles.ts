@@ -68,20 +68,22 @@ export const TextFeedBack = styled.Text`
 export const Footer = styled.View`
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  width:40% ;
 `;
 
 export const ButtonJump = styled.TouchableOpacity`
-  margin: 0 20px;
+
 `;
-
-export const ButtonBack = styled.TouchableOpacity``;
-
-export const ImageButtonBack = styled.Image``;
 
 export const TextButtonJump = styled.Text`
   font-size: 18px;
   text-decoration:underline ;
 `;
+export const ButtonBack = styled.TouchableOpacity``;
+
+export const ImageButtonBack = styled.Image``;
+
 
 export const ButtonNext = styled.TouchableOpacity``;
 

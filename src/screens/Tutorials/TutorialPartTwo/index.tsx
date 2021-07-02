@@ -75,7 +75,7 @@ export function tutorialPartTwo(){
             <TextButtonJump>Pular</TextButtonJump>
           </ButtonJump>
 
-          <ButtonNext>
+          <ButtonNext onPress={()=> navigation.navigate('tutorialPartThree')}>
             <ImageButtonNext source={imaNext} />
           </ButtonNext>
         </Footer>
