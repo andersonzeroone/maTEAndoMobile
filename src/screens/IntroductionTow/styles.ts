@@ -27,14 +27,33 @@ export const Content = styled.View`
   height: 80%;
 `;
 
-export const ContainerExample = styled.View`
+export const ContainerOperations = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  width: 80%;
 `;
 
-export const ImageExample = styled.Image``;
+export const CardOperation = styled.View`
+  border-width: 2px;
+  border-color: #7018C9;
+  border-radius: 10px;
+
+  padding: 15px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 100px;
+`;
+
+export const TitleOperation = styled.Text`
+  margin-top: 10px;
+
+  font-weight: bold;
+`;
+
+export const ImageOperations = styled.Image``;
 
 export const ContainerFeedBack = styled.View`
   flex-direction: row;
@@ -52,8 +71,12 @@ export const Footer = styled.View`
 `;
 
 export const ButtonJump = styled.TouchableOpacity`
-  margin-right: 20px;
+  margin: 0 20px;
 `;
+
+export const ButtonBack = styled.TouchableOpacity``;
+
+export const ImageButtonBack = styled.Image``;
 
 export const TextButtonJump = styled.Text`
   font-size: 18px;

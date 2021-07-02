@@ -1,4 +1,6 @@
 import React from "react";
+import {useNavigation} from '@react-navigation/native';
+
 import ImageBackGround from "../../assets/Home.png";
 import logo from "../../assets/Logo.png";
 import iconcontrole from "../../assets/iconcontrole.png";
@@ -16,6 +18,9 @@ import {
 import { StatusBar } from "expo-status-bar";
 
 export function Home() {
+
+  const navigation = useNavigation();
+
   return (
     <>
       <StatusBar backgroundColor='#CCECFF'/>
@@ -27,7 +32,7 @@ export function Home() {
         <Footer>
           <ContentFooter>
             <ImgControl source={iconcontrole} />
-            <ButtonStart>
+            <ButtonStart onPress={()=> navigation.navigate('Intructions')}>
               <TextButtonStart>Jogar</TextButtonStart>
             </ButtonStart>
           </ContentFooter>

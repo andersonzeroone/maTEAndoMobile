@@ -1,4 +1,7 @@
 import React from "react";
+import {useNavigation} from '@react-navigation/native';
+
+
 import ex1 from "../../assets/Ex1.png";
 import ex2 from "../../assets/Ex2.png";
 import ex3 from "../../assets/Ex3.png";
@@ -11,6 +14,8 @@ import {
   Text,
   ContainerExample,
   ImageExample,
+  ContainerFeedBack,
+  TextFeedBack,
   Footer,
   ButtonJump,
   TextButtonJump,
@@ -19,6 +24,7 @@ import {
 } from "./styles";
 
 export function Introduction() {
+  const navigation = useNavigation();
   return (
     <Container>
       <Title>Introdução</Title>
@@ -36,12 +42,16 @@ export function Introduction() {
           <ImageExample source={ex3}/>
         </ContainerExample>
 
+        <ContainerFeedBack>
+          <TextFeedBack>1 de 6</TextFeedBack>
+        </ContainerFeedBack>
+
         <Footer>
           <ButtonJump>
             <TextButtonJump>Pular</TextButtonJump>
           </ButtonJump>
 
-          <ButtonNext>
+          <ButtonNext onPress={()=> navigation.navigate('IntructionsTow') }>
             <ImageButtonNext source={imaNext} />
           </ButtonNext>
         </Footer>
