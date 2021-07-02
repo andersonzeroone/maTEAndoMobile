@@ -30,7 +30,7 @@ interface TutotialProps{
   nextScreen:()=> void;
 }
 
-export function Tutotialstructure({
+export function TutotialStructure({
   nameOperation,
   imageOperation,
   imageExampleOperation,
