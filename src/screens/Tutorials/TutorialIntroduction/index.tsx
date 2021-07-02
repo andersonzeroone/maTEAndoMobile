@@ -22,7 +22,7 @@ import {
   ImageButtonNext,
 } from './styles';
 
-export function  tutorialPartOne() {
+export function  tutorialIntroduction() {
   const navigation = useNavigation();
   return (
     <Container>
@@ -50,7 +50,7 @@ export function  tutorialPartOne() {
             <TextButtonJump>Pular</TextButtonJump>
           </ButtonJump>
 
-          <ButtonNext onPress={()=> navigation.navigate('tutorialPartTwo') }>
+          <ButtonNext onPress={()=> navigation.navigate('tutorialOperations') }>
             <ImageButtonNext source={imaNext} />
           </ButtonNext>
         </Footer>

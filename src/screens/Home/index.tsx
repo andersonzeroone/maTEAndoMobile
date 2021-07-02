@@ -32,7 +32,7 @@ export function Home() {
         <Footer>
           <ContentFooter>
             <ImgControl source={iconcontrole} />
-            <ButtonStart onPress={()=> navigation.navigate('tutorialPartOne')}>
+            <ButtonStart onPress={()=> navigation.navigate('tutorialIntroduction')}>
               <TextButtonStart>Jogar</TextButtonStart>
             </ButtonStart>
           </ContentFooter>
