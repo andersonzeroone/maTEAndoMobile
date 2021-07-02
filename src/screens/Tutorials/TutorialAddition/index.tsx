@@ -4,11 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import { TutotialStructure } from '../../../components/TutotialStructure';
 
 import addition from '../../../assets/adicao.png'
-import imgExample from '../../../assets/expart3.png'
+import imgExample from '../../../assets/exAdicao.png'
 
 import {
   Conteiner,
-} from './styles';
+} from '../StyleScreenOperations/style';
 
 export function tutorialAddition() {
   const navigation = useNavigation();
@@ -18,9 +18,11 @@ export function tutorialAddition() {
       <TutotialStructure
         nameOperation='Adicão'
         imageOperation={addition}
+        description='É uma operação matemática com a finalidade de somar, adicionar,
+        acrescentar. Exemplo:'
         imageExampleOperation={imgExample}
         numberFeedback={3}
-        nextScreen={()=> navigation.navigate('Home')}
+        nextScreen={()=> navigation.navigate('tutorialSubtraction')}
       />
     </Conteiner>
   );

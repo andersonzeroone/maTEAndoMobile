@@ -25,6 +25,7 @@ import {
 interface TutotialProps{
   nameOperation:string;
   imageOperation:ImageSourcePropType;
+  description:string;
   imageExampleOperation:ImageSourcePropType;
   numberFeedback:number;
   nextScreen:()=> void;
@@ -33,6 +34,7 @@ interface TutotialProps{
 export function TutotialStructure({
   nameOperation,
   imageOperation,
+  description,
   imageExampleOperation,
   numberFeedback,
   nextScreen
@@ -48,8 +50,7 @@ export function TutotialStructure({
       </ContenteNameImageOperation>
 
       <DescriptionOperation>
-        É uma operação matemática com a finalidade de somar, adicionar,
-        acrescentar. Exemplo:
+        {description}
       </DescriptionOperation>
 
       <ImageExampleOperation source={imageExampleOperation} />
