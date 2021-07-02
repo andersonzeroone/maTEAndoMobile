@@ -1,8 +1,8 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import { Home } from '../screens/Home';
-import { Introduction } from '../screens/Introduction';
-import { IntroductionTow } from '../screens/IntroductionTow';
+import { tutorialPartOne } from '../screens/Tutorials/TutorialPartOne';
+import { tutorialPartTwo } from '../screens/Tutorials/TutorialPartTwo';
 
 const stackRoutes = createStackNavigator();
 
@@ -16,13 +16,13 @@ const AppRoutes:React.FC= () =>(
     />
 
     <stackRoutes.Screen
-      name='Intructions'
-      component={Introduction}
+      name='tutorialPartOne'
+      component={tutorialPartOne}
     />
 
     <stackRoutes.Screen
-      name='IntructionsTow'
-      component={IntroductionTow}
+      name='tutorialPartTwo'
+      component={tutorialPartTwo}
     />
   </stackRoutes.Navigator>
 )

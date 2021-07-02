@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import addition from '../../assets/adicao.png';
-import subtraction from '../../assets/subtracao.png';
-import division from '../../assets/divisao.png';
-import multiplication from '../../assets/multiplicacao.png';
+import addition from '../../../assets/adicao.png';
+import subtraction from '../../../assets/subtracao.png';
+import division from '../../../assets/divisao.png';
+import multiplication from '../../../assets/multiplicacao.png';
 
-import imaBack from '../../assets/bntVoltar.png';
-import imaNext from '../../assets/bntAvancar.png';
+import imaBack from '../../../assets/bntVoltar.png';
+import imaNext from '../../../assets/bntAvancar.png';
 
 import {
   Container,
@@ -29,7 +29,7 @@ import {
   ImageButtonNext,
 } from './styles';
 
-export function IntroductionTow(){
+export function tutorialPartTwo(){
   const navigation = useNavigation();
   return (
     <Container>

@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 
-import ImageBackGround from "../../assets/Home.png";
-import logo from "../../assets/Logo.png";
-import iconcontrole from "../../assets/iconcontrole.png";
+import ImageBackGround from '../../assets/Home.png';
+import logo from '../../assets/Logo.png';
+import iconcontrole from '../../assets/iconcontrole.png';
 
 import {
   Container,
@@ -14,8 +14,8 @@ import {
   ImgControl,
   ButtonStart,
   TextButtonStart,
-} from "./styles";
-import { StatusBar } from "expo-status-bar";
+} from './styles';
+import { StatusBar } from 'expo-status-bar';
 
 export function Home() {
 
@@ -24,7 +24,7 @@ export function Home() {
   return (
     <>
       <StatusBar backgroundColor='#CCECFF'/>
-      <Container source={ImageBackGround} resizeMode="stretch">
+      <Container source={ImageBackGround} resizeMode='stretch'>
         <Header>
           <Logo source={logo} />
         </Header>
@@ -32,7 +32,7 @@ export function Home() {
         <Footer>
           <ContentFooter>
             <ImgControl source={iconcontrole} />
-            <ButtonStart onPress={()=> navigation.navigate('Intructions')}>
+            <ButtonStart onPress={()=> navigation.navigate('tutorialPartOne')}>
               <TextButtonStart>Jogar</TextButtonStart>
             </ButtonStart>
           </ContentFooter>

@@ -1,11 +1,10 @@
-import React from "react";
+import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 
-
-import ex1 from "../../assets/Ex1.png";
-import ex2 from "../../assets/Ex2.png";
-import ex3 from "../../assets/Ex3.png";
-import imaNext from "../../assets/bntAvancar.png";
+import ex1 from '../../../assets/Ex1.png';
+import ex2 from '../../../assets/Ex2.png';
+import ex3 from '../../../assets/Ex3.png';
+import imaNext from '../../../assets/bntAvancar.png';
 
 import {
   Container,
@@ -21,9 +20,9 @@ import {
   TextButtonJump,
   ButtonNext,
   ImageButtonNext,
-} from "./styles";
+} from './styles';
 
-export function Introduction() {
+export function  tutorialPartOne() {
   const navigation = useNavigation();
   return (
     <Container>
@@ -51,7 +50,7 @@ export function Introduction() {
             <TextButtonJump>Pular</TextButtonJump>
           </ButtonJump>
 
-          <ButtonNext onPress={()=> navigation.navigate('IntructionsTow') }>
+          <ButtonNext onPress={()=> navigation.navigate('tutorialPartTwo') }>
             <ImageButtonNext source={imaNext} />
           </ButtonNext>
         </Footer>
