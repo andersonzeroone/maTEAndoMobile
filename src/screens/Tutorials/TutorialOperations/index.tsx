@@ -56,6 +56,7 @@ export function tutorialOperations(){
         </Text>
 
         <ContainerOperations>
+            
           <CardOperation>
             <ImageOperations source={addition}/>
             <TitleOperation>Adição</TitleOperation>

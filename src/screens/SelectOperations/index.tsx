@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { CardPrimary } from '../../components/CardsPrimary';
 
 import imageGoBack from '../../assets/bntVoltar.png';
 import addition from '../../assets/adicao.png';
@@ -15,11 +16,8 @@ import {
   ButtonGoBack,
   ImageButtonGoBack,
   ContentCardsOperations,
-  CardsOperations,
-  NameOperation,
-  ImageOperation
 } from './styles';
-
+ 
 export function selectOperations(){
 
   const navigation = useNavigation();
@@ -39,25 +37,29 @@ export function selectOperations(){
       </ContentHeader>
 
       <ContentCardsOperations>
-        <CardsOperations onPress={()=> handleSaveOperation('addtion')}>
-          <ImageOperation source={addition}/>
-          <NameOperation>Soma</NameOperation>
-        </CardsOperations>
+        <CardPrimary
+          image={addition}
+          name='Soma'
+          handleNavigation={()=> handleSaveOperation('addtion')}
+        />
 
-        <CardsOperations onPress={()=> handleSaveOperation('subtraction')}>
-          <ImageOperation source={subtraction}/>
-          <NameOperation>Subtração</NameOperation>
-        </CardsOperations>
+        <CardPrimary
+          image={subtraction}
+          name='Subtração'
+          handleNavigation={()=> handleSaveOperation('subtraction')}
+        />
 
-        <CardsOperations onPress={()=> handleSaveOperation('division')}>
-          <ImageOperation source={division}/>
-          <NameOperation>Divisão</NameOperation>
-        </CardsOperations>
+        <CardPrimary
+          image={division}
+          name='Divisão'
+          handleNavigation={()=> handleSaveOperation('divisão')}
+        />
 
-        <CardsOperations onPress={()=> handleSaveOperation('multiplication')}>
-          <ImageOperation source={multiplication}/>
-          <NameOperation>Multiplicação</NameOperation>
-        </CardsOperations>
+        <CardPrimary
+          image={multiplication}
+          name='Multiplicação'
+          handleNavigation={()=> handleSaveOperation('multiplicação')}
+        />
       </ContentCardsOperations>
     </Container>
   )

@@ -37,23 +37,4 @@ export const ContentCardsOperations = styled.View`
   margin-top: 50px;
 `;
 
-export const CardsOperations = styled.TouchableOpacity`
-  border-width: 2px;
-  border-color: #7018C9;
-  border-radius: 10px;
 
-  padding: 15px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  height: 100px;
-`;
-
-export const NameOperation = styled.Text`
-  margin-top: 10px;
-
-  font-weight: bold;
-`;
-
-export const ImageOperation = styled.Image``;
