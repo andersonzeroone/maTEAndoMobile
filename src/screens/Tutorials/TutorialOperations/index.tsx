@@ -48,7 +48,7 @@ export function tutorialOperations(){
   }
   return (
     <Container>
-      <Title>Parte 2</Title>
+      <Title>Operações</Title>
 
       <Content>
         <Text>

@@ -4,21 +4,24 @@ import { useNavigation } from '@react-navigation/native';
 import { CardPrimary } from '../../components/CardsPrimary';
 
 import imageGoBack from '../../assets/bntVoltar.png';
-import addition from '../../assets/adicao.png';
-import subtraction from '../../assets/subtracao.png';
-import division from '../../assets/divisao.png';
-import multiplication from '../../assets/multiplicacao.png';
+import iconClick from '../../assets/click.png';
+import apple from '../../assets/maca.png';
+import car from '../../assets/carro.png';
+import flower from '../../assets/flor.png';
+import iceCream from '../../assets/sorverte.png';
 
 import {
   Container,
   ContentHeader,
+  ContenteTitle,
+  IconClick,
   Title,
   ButtonGoBack,
   ImageButtonGoBack,
   ContentCardsOperations,
 } from './styles';
  
-export function selectOperations(){
+export function selectObjects(){
 
   const navigation = useNavigation();
 
@@ -32,32 +35,37 @@ export function selectOperations(){
         <ButtonGoBack onPress={()=> navigation.goBack()}>
           <ImageButtonGoBack source={imageGoBack}/>
         </ButtonGoBack>
-        <Title>Selecione uma operação</Title>
+
+        <ContenteTitle>
+          <Title>Selecione um objeto</Title>
+          <IconClick source={iconClick}/>
+        </ContenteTitle>
+
          <View/> 
       </ContentHeader>
 
       <ContentCardsOperations>
-        <CardPrimary
-          image={addition}
-          name='Soma'
+      <CardPrimary
+          image={apple}
+          name='Maça'
           handleNavigation={()=> handleSaveOperation('addtion')}
         />
 
         <CardPrimary
-          image={subtraction}
-          name='Subtração'
+          image={car}
+          name='carro'
           handleNavigation={()=> handleSaveOperation('subtraction')}
         />
 
         <CardPrimary
-          image={division}
-          name='Divisão'
+          image={flower}
+          name='Flor'
           handleNavigation={()=> handleSaveOperation('divisão')}
         />
 
         <CardPrimary
-          image={multiplication}
-          name='Multiplicação'
+          image={iceCream}
+          name='Sorverte'
           handleNavigation={()=> navigation.navigate('selectObjects')}
         />
       </ContentCardsOperations>

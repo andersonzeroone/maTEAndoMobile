@@ -8,6 +8,7 @@ import { tutorialSubtraction } from '../screens/Tutorials/TutorialSubtraction/in
 import { tutorialDivision } from '../screens/Tutorials/TutorialDivision/indext';
 import { tutorialMultiplication } from '../screens/Tutorials/TutorialMultiplication/indext';
 import { selectOperations } from '../screens/SelectOperations';
+import { selectObjects } from '../screens/SelectObjects';
 
 const stackRoutes = createStackNavigator();
 
@@ -53,6 +54,11 @@ const AppRoutes:React.FC= () =>(
     <stackRoutes.Screen
       name='selectOperations'
       component={selectOperations}
+    />
+
+    <stackRoutes.Screen
+      name='selectObjects'
+      component={selectObjects}
     />
   </stackRoutes.Navigator>
 )

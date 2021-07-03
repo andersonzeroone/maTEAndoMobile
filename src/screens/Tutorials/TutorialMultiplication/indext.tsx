@@ -22,7 +22,7 @@ export function tutorialMultiplication() {
           aumentar. Exemplo:'
         imageExampleOperation={imgExample}
         numberFeedback={6}
-        nextScreen={()=> navigation.navigate('Home')}
+        nextScreen={()=> navigation.navigate('selectOperations')}
       />
     </Conteiner>
   );
