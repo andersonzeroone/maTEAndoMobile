@@ -21,7 +21,7 @@ export function tutorialSubtraction() {
         description='É uma operação matemática com a finalidade de 
           diminuir, reduzir, tirar. Exemplo:'
         imageExampleOperation={imgExample}
-        numberFeedback={5}
+        numberFeedback={4}
         nextScreen={()=> navigation.navigate('tutorialDivision')}
       />
     </Conteiner>

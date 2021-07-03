@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import {ImageSourcePropType} from 'react-native';
+import {Alert, ImageSourcePropType} from 'react-native';
 
 import imageBack from '../../assets/bntVoltar.png';
 import imageNext from '../../assets/bntAvancar.png';
@@ -42,6 +42,19 @@ export function TutotialStructure({
 
   const navigation = useNavigation();
 
+  function handleAlert(){
+    Alert.alert('Pular tutorial 📚','Deseja pular essa etapa?',[
+      {
+        text:'Não 😊',
+        style:'cancel'
+      },
+      {
+        text:'Sim 😀' ,
+        onPress:()=>navigation.navigate('selectOperations'),
+      }
+    ]);
+  }
+
   return(
     <>
       <ContenteNameImageOperation>
@@ -64,7 +77,7 @@ export function TutotialStructure({
           <ImageButtonBack source={imageBack} />
         </ButtonBack>
 
-        <ButtonJump>
+        <ButtonJump onPress={handleAlert}>
           <TextButtonJump>Pular</TextButtonJump>
         </ButtonJump>
 

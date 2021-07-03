@@ -6,6 +6,8 @@ import { tutorialOperations } from '../screens/Tutorials/TutorialOperations';
 import { tutorialAddition } from '../screens/Tutorials/TutorialAddition';
 import { tutorialSubtraction } from '../screens/Tutorials/TutorialSubtraction/indext';
 import { tutorialDivision } from '../screens/Tutorials/TutorialDivision/indext';
+import { tutorialMultiplication } from '../screens/Tutorials/TutorialMultiplication/indext';
+import { selectOperations } from '../screens/SelectOperations';
 
 const stackRoutes = createStackNavigator();
 
@@ -41,6 +43,16 @@ const AppRoutes:React.FC= () =>(
     <stackRoutes.Screen
       name='tutorialDivision'
       component={tutorialDivision}
+    />
+
+    <stackRoutes.Screen
+      name='tutorialMultiplication'
+      component={tutorialMultiplication}
+    />
+
+    <stackRoutes.Screen
+      name='selectOperations'
+      component={selectOperations}
     />
   </stackRoutes.Navigator>
 )

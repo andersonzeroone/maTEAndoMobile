@@ -21,9 +21,24 @@ import {
   ButtonNext,
   ImageButtonNext,
 } from './styles';
+import { Alert } from 'react-native';
 
 export function  tutorialIntroduction() {
   const navigation = useNavigation();
+
+  function handleAlert(){
+    Alert.alert('Pular tutorial 📚','Deseja pular essa etapa?',[
+      {
+        text:'Não 😊',
+        style:'cancel'
+      },
+      {
+        text:'Sim 😀' ,
+        onPress:()=>navigation.navigate('selectOperations'),
+      }
+    ]);
+  }
+
   return (
     <Container>
       <Title>Introdução</Title>
@@ -46,7 +61,7 @@ export function  tutorialIntroduction() {
         </ContainerFeedBack>
 
         <Footer>
-          <ButtonJump>
+          <ButtonJump onPress={handleAlert}>
             <TextButtonJump>Pular</TextButtonJump>
           </ButtonJump>
 

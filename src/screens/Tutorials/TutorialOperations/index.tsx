@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { Alert } from 'react-native';
 
 import addition from '../../../assets/adicao.png';
 import subtraction from '../../../assets/subtracao.png';
@@ -29,8 +30,22 @@ import {
   ImageButtonNext,
 } from './styles';
 
+
 export function tutorialOperations(){
   const navigation = useNavigation();
+
+  function handleAlert(){
+    Alert.alert('Pular tutorial 📚','Deseja pular essa etapa?',[
+      {
+        text:'Não 😊',
+        style:'cancel'
+      },
+      {
+        text:'Sim 😀' ,
+        onPress:()=>navigation.navigate('selectOperations'),
+      }
+    ]);
+  }
   return (
     <Container>
       <Title>Parte 2</Title>
@@ -71,7 +86,7 @@ export function tutorialOperations(){
             <ImageButtonBack source={imaBack} />
           </ButtonBack>
 
-          <ButtonJump>
+          <ButtonJump onPress={handleAlert}>
             <TextButtonJump>Pular</TextButtonJump>
           </ButtonJump>
 
