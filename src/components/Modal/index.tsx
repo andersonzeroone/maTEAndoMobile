@@ -1,3 +1,4 @@
+import { boolean } from 'joi';
 import React from 'react';
 import { View, Modal,ImageSourcePropType, ModalProps } from 'react-native';
 
@@ -17,13 +18,20 @@ interface modalProps extends ModalProps{
   title:string;
   imageModal:ImageSourcePropType;
   next:()=> void;
+  visibliModal:boolean;
 }
-export function ModalPrimary({title, imageModal,next}:modalProps){
+export function ModalPrimary({
+  title, 
+  imageModal,
+  next, 
+  visibliModal
+}:modalProps){
   return(
     <>
       <Modal
         animationType='slide'
         transparent
+        visible={visibliModal}
       >
         <ContainerModal>
           <ContentModal>

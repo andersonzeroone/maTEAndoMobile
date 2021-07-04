@@ -1,4 +1,4 @@
-import React, {useState }from 'react';
+import React, {useCallback, useState }from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { TutotialStructure } from '../../../components/TutotialStructure';
@@ -15,7 +15,16 @@ import {
 export function tutorialMultiplication() {
   const navigation = useNavigation();
 
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleModalVisible = useCallback(()=>{
+    setModalVisible((state)=> !state);
+  },[]);
+
+  function handleNavigation(){
+    setModalVisible((state)=> !state);
+    navigation.navigate('selectOperations');
+  }
 
   return (
     <Container>
@@ -26,14 +35,14 @@ export function tutorialMultiplication() {
           aumentar. Exemplo:'
         imageExampleOperation={imgExample}
         numberFeedback={6}
-        nextScreen={()=> navigation.navigate('selectOperations')}
+        nextScreen={handleModalVisible}
       />
 
       <ModalPrimary
         title='Parabéns, você concluiu a primeira etapa!'
         imageModal={imageModal}
-        next={()=>{}}
-        visible={modalVisible}
+        next={handleNavigation}
+        visibliModal={modalVisible}
       />
       
     </Container>

@@ -15,6 +15,7 @@ const stackRoutes = createStackNavigator();
 const AppRoutes:React.FC= () =>(
   <stackRoutes.Navigator
     headerMode='none'
+    initialRouteName='tutorialMultiplication'
   >
     <stackRoutes.Screen
       name='Home'
