@@ -7,14 +7,14 @@ import addition from '../../../assets/adicao.png'
 import imgExample from '../../../assets/exAdicao.png'
 
 import {
-  Conteiner,
+  Container,
 } from '../StyleScreenOperations/style';
 
 export function tutorialAddition() {
   const navigation = useNavigation();
 
   return (
-    <Conteiner>
+    <Container>
       <TutotialStructure
         nameOperation='Adicão'
         imageOperation={addition}
@@ -24,6 +24,6 @@ export function tutorialAddition() {
         numberFeedback={3}
         nextScreen={()=> navigation.navigate('tutorialSubtraction')}
       />
-    </Conteiner>
+    </Container>
   );
 }

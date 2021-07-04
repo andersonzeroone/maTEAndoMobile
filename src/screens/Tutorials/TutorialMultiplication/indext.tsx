@@ -1,20 +1,24 @@
-import React from 'react';
+import React, {useState }from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { TutotialStructure } from '../../../components/TutotialStructure';
+import {ModalPrimary} from '../../../components/Modal';
 
 import division from '../../../assets/multiplicacao.png'
 import imgExample from '../../../assets/exMultiplicacao.png'
+import imageModal from '../../../assets/sucesso.png';
 
 import {
-  Conteiner,
+  Container,
 } from '../StyleScreenOperations/style';
 
 export function tutorialMultiplication() {
   const navigation = useNavigation();
 
+  const [modalVisible, setModalVisible] = useState(true);
+
   return (
-    <Conteiner>
+    <Container>
       <TutotialStructure
         nameOperation='Multiplicação'
         imageOperation={division}
@@ -24,6 +28,14 @@ export function tutorialMultiplication() {
         numberFeedback={6}
         nextScreen={()=> navigation.navigate('selectOperations')}
       />
-    </Conteiner>
+
+      <ModalPrimary
+        title='Parabéns, você concluiu a primeira etapa!'
+        imageModal={imageModal}
+        next={()=>{}}
+        visible={modalVisible}
+      />
+      
+    </Container>
   );
 }

@@ -7,14 +7,14 @@ import division from '../../../assets/divisao.png'
 import imgExample from '../../../assets/exDivisao.png'
 
 import {
-  Conteiner,
+  Container,
 } from '../StyleScreenOperations/style';
 
 export function tutorialDivision() {
   const navigation = useNavigation();
 
   return (
-    <Conteiner>
+    <Container>
       <TutotialStructure
         nameOperation='Divisão'
         imageOperation={division}
@@ -24,6 +24,6 @@ export function tutorialDivision() {
         numberFeedback={5}
         nextScreen={()=> navigation.navigate('tutorialMultiplication')}
       />
-    </Conteiner>
+    </Container>
   );
 }

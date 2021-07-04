@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-export const Conteiner = styled.View`
+export const Container = styled.View`
   padding: 30px 20px 20px;
 
   flex-direction: column;
