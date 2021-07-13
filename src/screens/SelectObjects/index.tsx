@@ -48,7 +48,7 @@ export function selectObjects(){
       <CardPrimary
           image={apple}
           name='Maça'
-          handleNavigation={()=> handleSaveOperation('addtion')}
+          handleNavigation={()=> navigation.navigate('play')}
         />
 
         <CardPrimary
