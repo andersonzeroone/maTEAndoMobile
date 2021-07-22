@@ -22,8 +22,11 @@ export function selectOperations(){
 
   const navigation = useNavigation();
 
-  function handleSaveOperation(operation:string){
-    console.warn(operation);
+  function handleNavigation(nameOperation:string,imageOperation:any){
+    navigation.navigate('selectObjects',{
+      operation:nameOperation,
+      imageOperation
+    });
   }
 
   return(
@@ -40,25 +43,25 @@ export function selectOperations(){
         <CardPrimary
           image={addition}
           name='Soma'
-          handleNavigation={()=> handleSaveOperation('addtion')}
+          handleNavigation={()=> handleNavigation('addition',addition)}
         />
 
         <CardPrimary
           image={subtraction}
           name='Subtração'
-          handleNavigation={()=> handleSaveOperation('subtraction')}
+          handleNavigation={()=> handleNavigation('subtraction',subtraction)}
         />
 
         <CardPrimary
           image={division}
           name='Divisão'
-          handleNavigation={()=> handleSaveOperation('divisão')}
+          handleNavigation={()=> handleNavigation('division',division)}
         />
 
         <CardPrimary
           image={multiplication}
           name='Multiplicação'
-          handleNavigation={()=> navigation.navigate('selectObjects')}
+          handleNavigation={()=> handleNavigation('multiplication',multiplication)}
         />
       </ContentCardsOperations>
     </Container>

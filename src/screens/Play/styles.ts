@@ -65,7 +65,7 @@ export const ContainerAlternatives = styled.View`
   margin-top: 35px;
 `;
 
-export const CardAlternative = styled.View`
+export const CardAlternative = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   padding: 10px;

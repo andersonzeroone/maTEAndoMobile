@@ -1,8 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View,ImageSourcePropType} from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { CardPrimary } from '../../components/CardsPrimary';
-
 import imageGoBack from '../../assets/bntVoltar.png';
 import iconClick from '../../assets/click.png';
 import apple from '../../assets/maca.png';
@@ -21,12 +20,21 @@ import {
   ContentCardsOperations,
 } from './styles';
  
+interface Params{
+  operation:string,
+  imageOperation:ImageSourcePropType,
+}
 export function selectObjects(){
-
   const navigation = useNavigation();
+  const route = useRoute();
 
-  function handleSaveOperation(operation:string){
-    console.warn(operation);
+  const dataRoute = route.params as Params;
+
+  function handleNavigation(objectSelect:any){
+    navigation.navigate('play',{
+      ...dataRoute,
+      object:objectSelect
+    });
   }
 
   return(
@@ -48,25 +56,25 @@ export function selectObjects(){
       <CardPrimary
           image={apple}
           name='Maça'
-          handleNavigation={()=> navigation.navigate('play')}
+          handleNavigation={()=> handleNavigation(apple)}
         />
 
         <CardPrimary
           image={car}
           name='carro'
-          handleNavigation={()=> handleSaveOperation('subtraction')}
+          handleNavigation={()=> handleNavigation(car)}
         />
 
         <CardPrimary
           image={flower}
           name='Flor'
-          handleNavigation={()=> handleSaveOperation('divisão')}
+          handleNavigation={()=> handleNavigation(flower)}
         />
 
         <CardPrimary
           image={iceCream}
           name='Sorverte'
-          handleNavigation={()=> navigation.navigate('selectObjects')}
+          handleNavigation={()=> handleNavigation(iceCream)}
         />
       </ContentCardsOperations>
     </Container>

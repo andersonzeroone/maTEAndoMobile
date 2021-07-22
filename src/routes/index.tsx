@@ -9,14 +9,14 @@ import { tutorialDivision } from '../screens/Tutorials/TutorialDivision/indext';
 import { tutorialMultiplication } from '../screens/Tutorials/TutorialMultiplication/indext';
 import { selectOperations } from '../screens/SelectOperations';
 import { selectObjects } from '../screens/SelectObjects';
-import { play } from '../screens/Play/indes';
+import { play } from '../screens/Play';
 
 const stackRoutes = createStackNavigator();
 
 const AppRoutes:React.FC= () =>(
   <stackRoutes.Navigator
     headerMode='none'
-    initialRouteName='play'
+    initialRouteName='selectOperations'
   >
     <stackRoutes.Screen
       name='Home'
