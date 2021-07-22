@@ -8,7 +8,12 @@ import equal from '../../assets/igual.png';
 import interrogation from '../../assets/interrogacao.png';
 import one from '../../assets/1.png';
 
-import { additionOperation, subtractionOperation} from '../../operations';
+import { 
+  additionOperation, 
+  subtractionOperation,
+  divisionOperation
+} from '../../operations';
+
 import { getRandom, getMinMaxValueAlternative } from '../../utils/utils';
 
 import {
@@ -87,7 +92,6 @@ export function play() {
       }
 
       // ||  'division' || 'multiplication' 
-
       if(nameOperation === 'subtraction'){
         const subtraction = subtractionOperation(limit);
         setResultOperation(subtraction);
@@ -95,8 +99,12 @@ export function play() {
         getRandomAlternative(subtraction.result);
       }
 
-      // subtraction
-
+      if(nameOperation === 'division'){
+        const division = divisionOperation(limit);
+        setResultOperation(division);
+        handleArrayElements(division);
+        getRandomAlternative(division.result);
+      }
   }
 
 

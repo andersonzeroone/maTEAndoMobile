@@ -32,3 +32,25 @@ export function subtractionOperation(nivel:number){
 
   return dataResult;
 }
+
+export function divisionOperation(nivel:number){
+  let numberPrimary = getRandom(2,nivel);
+  let numberSecondary = getNumbetTwo(numberPrimary,nivel);
+
+  const dataResult ={
+    numberPrimary,
+    numberSecondary,
+    result:numberPrimary /numberSecondary
+  }
+
+  return dataResult;
+}
+
+function getNumbetTwo(numberPrimary:number,nivel:number){
+  let numberTwo = getRandom(1,nivel);
+
+  if(numberPrimary % numberTwo === 0){
+    return numberTwo;
+  }
+  return numberPrimary;
+}    
