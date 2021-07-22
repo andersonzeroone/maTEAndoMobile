@@ -1,16 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ScrollView, View, Text, ImageSourcePropType } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from 'react';
+import { ScrollView, View, Text, ImageSourcePropType } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-import logo from "../../assets/Logo.png";
-import home from "../../assets/home.png";
-import equal from "../../assets/igual.png";
-import interrogation from "../../assets/interrogacao.png";
-import one from "../../assets/1.png";
+import logo from '../../assets/Logo.png';
+import home from '../../assets/home.png';
+import equal from '../../assets/igual.png';
+import interrogation from '../../assets/interrogacao.png';
+import one from '../../assets/1.png';
 
-import { addtionOperation } from "../../operations";
-import { getRandom, getMinMaxValueAlternative } from "../../utils/utils";
+import { additionOperation, subtractionOperation} from '../../operations';
+import { getRandom, getMinMaxValueAlternative } from '../../utils/utils';
 
 import {
   Container,
@@ -29,7 +28,7 @@ import {
   ContainerAlternatives,
   CardAlternative,
   NumberCard,
-} from "./styles";
+} from './styles';
 
 interface resultProps {
   numberPrimary: number;
@@ -80,13 +79,24 @@ export function play() {
         limit = 10;
       }
 
-      if(nameOperation === "addition" || "subtraction" ||  "division" || "multiplication" ){
-        var addtion = addtionOperation(limit);
+      if(nameOperation === 'addition'){
+        const addtion = additionOperation(limit);
         setResultOperation(addtion);
+        handleArrayElements(addtion);
+        getRandomAlternative(addtion.result);
       }
 
-      handleArrayElements(resultOperation);
-      getRandomAlternative(resultOperation.result);
+      // ||  'division' || 'multiplication' 
+
+      if(nameOperation === 'subtraction'){
+        const subtraction = subtractionOperation(limit);
+        setResultOperation(subtraction);
+        handleArrayElements(subtraction);
+        getRandomAlternative(subtraction.result);
+      }
+
+      // subtraction
+
   }
 
 
@@ -106,12 +116,12 @@ export function play() {
   function getRandomAlternative(result: number){
     const { valueMax, valueMin } = getMinMaxValueAlternative(result);
     const arrayAlternatives: number[] = [];
-    console.log('max:',valueMax ,'-', valueMin)
-    console.log('--------------');
+    // console.log('max:',valueMax ,'-', valueMin)
+    // console.log('--------------');
 
     const array = [...Array(valueMax - valueMin)].map(() => {
       let numberRandom = getRandom(valueMin, valueMax);
-      console.log('random',numberRandom)
+      // console.log('random',numberRandom)
       if ( arrayAlternatives.length == 3 ||numberRandom === result || arrayAlternatives.includes(numberRandom)){
         valueMax + 1;
         return;
@@ -136,7 +146,7 @@ export function play() {
 
           <Logo source={logo} />
           <Text>
-            {resultOperation.numberPrimary} | {resultOperation.numberSecondary}{" "}
+            {resultOperation.numberPrimary} | {resultOperation.numberSecondary}{' '}
             - {resultOperation.result}
           </Text>
 
@@ -166,7 +176,7 @@ export function play() {
         </Content>
 
         <ContainerAlternatives>
-          <CardAlternative onPress={() => start("addition", 4)}>
+          <CardAlternative onPress={() => start(operation, 4)}>
             <NumberCard source={one} />
           </CardAlternative>
 
