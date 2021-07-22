@@ -53,4 +53,25 @@ function getNumbetTwo(numberPrimary:number,nivel:number){
     return numberTwo;
   }
   return numberPrimary;
-}    
+}
+
+export function multiplicationOperation(nivel:number){
+  let  numberPrimary = getRandom(1,nivel);
+  var numberSecondary = 0;
+
+  if(numberPrimary <= 5){
+    numberSecondary = getRandom(1,6);
+  }
+
+  if (numberPrimary >= 6 && numberPrimary <= 9) {
+    numberSecondary = getRandom(1,5);
+  }
+
+  const dataResult = {
+    numberPrimary,
+    numberSecondary,
+    result:numberPrimary * numberSecondary
+  }
+
+  return dataResult;
+}

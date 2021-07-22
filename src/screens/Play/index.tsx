@@ -11,7 +11,8 @@ import one from '../../assets/1.png';
 import { 
   additionOperation, 
   subtractionOperation,
-  divisionOperation
+  divisionOperation,
+  multiplicationOperation
 } from '../../operations';
 
 import { getRandom, getMinMaxValueAlternative } from '../../utils/utils';
@@ -105,6 +106,13 @@ export function play() {
         handleArrayElements(division);
         getRandomAlternative(division.result);
       }
+
+      if(nameOperation === 'multiplication'){
+        const multiplication = multiplicationOperation(limit);
+        setResultOperation(multiplication);
+        handleArrayElements(multiplication);
+        getRandomAlternative(multiplication.result);
+      }      
   }
 
 
