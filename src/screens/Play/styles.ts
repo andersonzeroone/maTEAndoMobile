@@ -1,4 +1,6 @@
+import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
+import { alternativesProps } from './index';
 
 export const Container = styled.View`
   padding: 20px;
@@ -60,12 +62,13 @@ export const ContainerAlternatives = styled.View`
   align-items: center;
   justify-content: space-between;
 
-  width: 65%;
+  width: 85%;
 
   margin-top: 35px;
 `;
 
 export const CardAlternative = styled.TouchableOpacity`
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 10px;
@@ -74,4 +77,9 @@ export const CardAlternative = styled.TouchableOpacity`
   background-color: #CCECFF;
 `;
 
-export const NumberCard = styled.Image``;
+export const NumberCard = styled.Image`
+  height: 80px;
+  width: 60px;
+`;
+
+export const AlternativesList = styled( FlatList as new () => FlatList<alternativesProps>)``;
