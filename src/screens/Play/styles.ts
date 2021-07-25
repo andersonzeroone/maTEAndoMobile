@@ -1,6 +1,4 @@
-import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
-import { alternativesProps } from './index';
 
 export const Container = styled.View`
   padding: 20px;
@@ -82,4 +80,16 @@ export const NumberCard = styled.Image`
   width: 60px;
 `;
 
-export const AlternativesList = styled( FlatList as new () => FlatList<alternativesProps>)``;
+export const ContainerMensageError = styled.View`
+  border-width: 2px;
+  border-color: red;
+  border-radius:15px;
+
+  padding: 10px;
+  margin-top: 10px;
+`;
+
+
+export const TextMensageError = styled.Text`
+  font-size: 25px;
+`;

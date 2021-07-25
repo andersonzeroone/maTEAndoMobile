@@ -1,6 +1,7 @@
 import React, {useEffect, useState } from 'react';
 import { ScrollView, View, Text, ImageSourcePropType } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import {ModalAnswer} from '../../components/ModalAnswer';
 
 import logo from '../../assets/Logo.png';
 import home from '../../assets/home.png';
@@ -55,7 +56,8 @@ import {
   ContainerAlternatives,
   CardAlternative,
   NumberCard,
-  AlternativesList
+  ContainerMensageError,
+  TextMensageError
 } from './styles';
 
 interface resultProps {
@@ -96,13 +98,19 @@ export function play() {
   const [alternatives, setAlternatives] = useState<number[]>([]);
 
   const [alternativesImages, setAlternativesImages] = useState<alternativesProps[]>([]);
+  
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const [nivel, setNivel] = useState<number>(2);
+
+  const [mensageError,setMensageError] = useState(false);
 
   useEffect(() => {
     start(operation, 2);
   }, []);
 
-  function start(nameOperation: string | null, nivel: number){
-  let limit = 4;
+  function start(nameOperation: string | null){
+    let limit = 4;
 
       if (nivel > 3) {
         limit = 5;
@@ -161,28 +169,44 @@ export function play() {
 
   function getRandomAlternative(result: number){
     const { valueMax, valueMin } = getMinMaxValueAlternative(result);
+    var newValueMax = valueMax;
     const arrayAlternatives: number[] = [];
     const arrAlternativeObject:alternativesProps[] = []
-    // console.log('max:',valueMax ,'-', valueMin)
-    // console.log('--------------');
+    console.log('--------------');
+    console.log('max:',valueMax ,'-', valueMin)
+    
+    // for(let x = valueMin; x<=newValueMax; x++ ){
+    //   let numberRandom = getRandom(valueMin, newValueMax);
+    //   console.log('numberRandom',numberRandom);
+    //   if( arrayAlternatives.length == 3 ||numberRandom === result || arrayAlternatives.includes(numberRandom)){
+    //       newValueMax ++;
+    //       console.log('tive que implementar newValueMax:', newValueMax)
+    //   }else{
+    //     console.log('não precisei implementar');
+    //     arrayAlternatives.push(numberRandom);
+    //   }
 
-    const array = [...Array(valueMax - valueMin)].map(() => {
-      let numberRandom = getRandom(valueMin, valueMax);
-      // console.log('random',numberRandom)
+    // }
+
+    const array = [...Array(newValueMax - valueMin)].map(() => {
+      let numberRandom = getRandom(valueMin, newValueMax);
+      console.log('numberRandom',numberRandom);
       if ( arrayAlternatives.length == 3 ||numberRandom === result || arrayAlternatives.includes(numberRandom)){
-        valueMax + 1;
+         newValueMax ++;
+        console.log('tive que implementar newValueMax:', valueMax)
         return;
       }
-
+      console.log('não precisei implementar');
       arrayAlternatives.push(numberRandom);
     });
 
     let indexRandom = getRandom(0, 3);
+    console.log('indexRandom:', indexRandom);
     arrayAlternatives.splice(indexRandom, 0, result);
-
+    console.log(arrayAlternatives)
     setAlternatives(arrayAlternatives);
+    
     arrayAlternatives.map((item,index)=>{
-       console.log(item);
       var valueInArr:string[] = []
       var numberPrimary = item;
       var numberSencondary = 0;
@@ -199,39 +223,56 @@ export function play() {
         numberSencondary
       }
 
-      console.log(dataAlternatives);
-
       arrAlternativeObject.push(dataAlternatives)
 
     });
-
+    console.log('*********')
     setAlternativesImages(arrAlternativeObject);
    
   }
 
   function checkedAlternative(value:number){
     if(value === resultOperation.result){
-      console.log('acertou');
+      setModalVisible(true);
+
+      setTimeout(function(){
+        setModalVisible(false);
+      }, 1000);
+
+      setNivel(state => (state +1));
+      start(operation);
+      return;
     }
+
+    setMensageError(true);
+
+    setTimeout(function(){
+      setMensageError(false);
+    }, 3000);
   }
 
   return (
     <ScrollView>
-      <Container>
+      <Container> 
+        <ModalAnswer
+          title='Parabén você acertou!'
+          emoji='😀'
+          visibliModal={modalVisible}   
+        />
         <Header>
-          <ButtonGoBackHome onPress={() => navigation.goBack()}>
+          <ButtonGoBackHome onPress={() => navigation.navigate('selectOperations')}>
             <IconHome source={home} />
           </ButtonGoBackHome>
 
           <Logo source={logo} />
-          <Text>
+          {/* <Text>
             {resultOperation.numberPrimary} | {resultOperation.numberSecondary}{' '}
             - {resultOperation.result}
-          </Text>
+          </Text> 
 
           {alternatives.map((item, index) => (
             <Text key={item}>({item})</Text>
-          ))}
+          ))}*/}
           <View />
         </Header>
 
@@ -253,7 +294,14 @@ export function play() {
 
           <ImageInterrogation source={interrogation} />
         </Content>
-
+        {
+          mensageError&&(
+            <ContainerMensageError>
+              <TextMensageError>Por favor tente novamente 😃</TextMensageError>  
+            </ContainerMensageError> 
+          )
+        }
+   
         <ContainerAlternatives>
           {alternativesImages.map((item, index)=>(
             item.id < 10 ?(

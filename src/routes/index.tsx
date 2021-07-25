@@ -16,7 +16,6 @@ const stackRoutes = createStackNavigator();
 const AppRoutes:React.FC= () =>(
   <stackRoutes.Navigator
     headerMode='none'
-    initialRouteName='selectOperations'
   >
     <stackRoutes.Screen
       name='Home'
