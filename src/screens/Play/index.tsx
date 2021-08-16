@@ -243,7 +243,7 @@ export function play() {
     <ScrollView>
       <Container> 
         <ModalAnswer
-          title='Parabén você acertou!'
+          title='Parabéns você acertou!'
           emoji='😀'
           visibliModal={modalVisible}   
         />
