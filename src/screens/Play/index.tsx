@@ -7,16 +7,17 @@ import logo from '../../assets/Logo.png';
 import home from '../../assets/home.png';
 import equal from '../../assets/igual.png';
 import interrogation from '../../assets/interrogacao.png';
-import zero from '../../assets/0.png';
-import one from '../../assets/1.png';
-import two from '../../assets/2.png';
-import three from '../../assets/3.png';
-import four from '../../assets/4.png';
-import five from '../../assets/5.png';
-import six from '../../assets/6.png';
-import seven from '../../assets/7.png';
-import eight from '../../assets/8.png';
-import nine from '../../assets/9.png';
+
+import zero from '../../assets/0.4.png';
+import one from '../../assets/1.4.png';
+import two from '../../assets/2.4.png';
+import three from '../../assets/3.4.png';
+import four from '../../assets/4.4.png';
+import five from '../../assets/5.4.png';
+import six from '../../assets/6.4.png';
+import seven from '../../assets/7.4.png';
+import eight from '../../assets/8.4.png';
+import nine from '../../assets/9.4.png';
 
 import { 
   additionOperation, 
@@ -175,19 +176,6 @@ export function play() {
     console.log('--------------');
     console.log('max:',valueMax ,'-', valueMin)
     
-    // for(let x = valueMin; x<=newValueMax; x++ ){
-    //   let numberRandom = getRandom(valueMin, newValueMax);
-    //   console.log('numberRandom',numberRandom);
-    //   if( arrayAlternatives.length == 3 ||numberRandom === result || arrayAlternatives.includes(numberRandom)){
-    //       newValueMax ++;
-    //       console.log('tive que implementar newValueMax:', newValueMax)
-    //   }else{
-    //     console.log('não precisei implementar');
-    //     arrayAlternatives.push(numberRandom);
-    //   }
-
-    // }
-
     const array = [...Array(newValueMax - valueMin)].map(() => {
       let numberRandom = getRandom(valueMin, newValueMax);
       console.log('numberRandom',numberRandom);

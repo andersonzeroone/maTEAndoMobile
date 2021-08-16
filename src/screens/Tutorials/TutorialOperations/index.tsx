@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Alert } from 'react-native';
+import { Alert, ScrollView } from 'react-native';
 
 import addition from '../../../assets/adicao.png';
 import subtraction from '../../../assets/subtracao.png';
@@ -13,7 +13,6 @@ import imaNext from '../../../assets/bntAvancar.png';
 import {
   Container,
   Title,
-  Content,
   Text,
   ContainerOperations,
   CardOperation,
@@ -31,71 +30,76 @@ import {
 } from './styles';
 
 
-export function tutorialOperations(){
+export function tutorialOperations() {
   const navigation = useNavigation();
 
-  function handleAlert(){
-    Alert.alert('Pular tutorial 📚','Deseja pular essa etapa?',[
+  function handleAlert() {
+    Alert.alert('Pular tutorial 📚', 'Deseja pular essa etapa?', [
       {
-        text:'Não 😊',
-        style:'cancel'
+        text: 'Não 😊',
+        style: 'cancel'
       },
       {
-        text:'Sim 😀' ,
-        onPress:()=>navigation.navigate('selectOperations'),
+        text: 'Sim 😀',
+        onPress: () => navigation.navigate('selectOperations'),
       }
     ]);
   }
   return (
-    <Container>
-      <Title>Operações</Title>
+    <>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
+        <Container>
+          <Title>Operações</Title>
 
-      <Content>
-        <Text>
-          As operações matemáticas são:
-        </Text>
+          <Text>
+            As operações matemáticas são:
+          </Text>
 
-        <ContainerOperations>
-            
-          <CardOperation>
-            <ImageOperations source={addition}/>
-            <TitleOperation>Adição</TitleOperation>
-          </CardOperation>
+          <ContainerOperations>
 
-          <CardOperation>  
-            <ImageOperations source={subtraction}/>
-            <TitleOperation>Subtração</TitleOperation>
-          </CardOperation>
+            <CardOperation>
+              <ImageOperations source={addition} />
+              <TitleOperation>Adição</TitleOperation>
+            </CardOperation>
 
-          <CardOperation>
-            <ImageOperations source={division}/>
-            <TitleOperation>Divição</TitleOperation>
-          </CardOperation>
+            <CardOperation>
+              <ImageOperations source={subtraction} />
+              <TitleOperation>Subtração</TitleOperation>
+            </CardOperation>
 
-          <CardOperation>
-            <ImageOperations source={multiplication}/>
-            <TitleOperation>Multiplicação</TitleOperation>
-          </CardOperation>
-        </ContainerOperations>
+            <CardOperation>
+              <ImageOperations source={division} />
+              <TitleOperation>Divição</TitleOperation>
+            </CardOperation>
 
-        <ContainerFeedBack>
-          <TextFeedBack>2 de 6</TextFeedBack>
-        </ContainerFeedBack>
+            <CardOperation>
+              <ImageOperations source={multiplication} />
+              <TitleOperation>Multiplicação</TitleOperation>
+            </CardOperation>
+          </ContainerOperations>
 
-        <Footer>
-          <ButtonBack onPress={()=> navigation.goBack()}>
-            <ImageButtonBack source={imaBack} />
-          </ButtonBack>
+          <ContainerFeedBack>
+            <TextFeedBack>2 de 6</TextFeedBack>
+          </ContainerFeedBack>
 
-          <ButtonJump onPress={handleAlert}>
-            <TextButtonJump>Pular</TextButtonJump>
-          </ButtonJump>
+          <Footer>
+            <ButtonBack onPress={() => navigation.goBack()}>
+              <ImageButtonBack source={imaBack} />
+            </ButtonBack>
 
-          <ButtonNext onPress={()=> navigation.navigate('tutorialAddition')}>
-            <ImageButtonNext source={imaNext} />
-          </ButtonNext>
-        </Footer>
-      </Content>
-    </Container>
+            <ButtonJump onPress={handleAlert}>
+              <TextButtonJump>Pular</TextButtonJump>
+            </ButtonJump>
+
+            <ButtonNext onPress={() => navigation.navigate('tutorialAddition')}>
+              <ImageButtonNext source={imaNext} />
+            </ButtonNext>
+          </Footer>
+        </Container>
+      </ScrollView>
+    </>
+
   );
 }

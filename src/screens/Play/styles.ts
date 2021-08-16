@@ -77,7 +77,7 @@ export const CardAlternative = styled.TouchableOpacity`
 
 export const NumberCard = styled.Image`
   height: 80px;
-  width: 60px;
+  width: 70px;
 `;
 
 export const ContainerMensageError = styled.View`

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { ScrollView } from 'react-native';
 
 import { TutotialStructure } from '../../../components/TutotialStructure';
 
@@ -14,16 +15,23 @@ export function tutorialSubtraction() {
   const navigation = useNavigation();
 
   return (
-    <Container>
-      <TutotialStructure
-        nameOperation='Subtração'
-        imageOperation={subtraction}
-        description='É uma operação matemática com a finalidade de 
+    <>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
+        <Container>
+          <TutotialStructure
+            nameOperation='Subtração'
+            imageOperation={subtraction}
+            description='É uma operação matemática com a finalidade de 
           diminuir, reduzir, tirar. Exemplo:'
-        imageExampleOperation={imgExample}
-        numberFeedback={4}
-        nextScreen={()=> navigation.navigate('tutorialDivision')}
-      />
-    </Container>
+            imageExampleOperation={imgExample}
+            numberFeedback={4}
+            nextScreen={() => navigation.navigate('tutorialDivision')}
+          />
+        </Container>
+      </ScrollView>
+    </>
+
   );
 }

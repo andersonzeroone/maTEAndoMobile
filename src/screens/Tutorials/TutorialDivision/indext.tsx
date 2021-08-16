@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-
+import { ScrollView } from 'react-native';
 import { TutotialStructure } from '../../../components/TutotialStructure';
 
 import division from '../../../assets/divisao.png'
@@ -14,16 +14,23 @@ export function tutorialDivision() {
   const navigation = useNavigation();
 
   return (
-    <Container>
-      <TutotialStructure
-        nameOperation='Divisão'
-        imageOperation={division}
-        description='É uma operação matemática com a finalidade de dividir, 
+    <>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
+        <Container>
+          <TutotialStructure
+            nameOperation='Divisão'
+            imageOperation={division}
+            description='É uma operação matemática com a finalidade de dividir, 
         repartir. Exemplo:'
-        imageExampleOperation={imgExample}
-        numberFeedback={5}
-        nextScreen={()=> navigation.navigate('tutorialMultiplication')}
-      />
-    </Container>
+            imageExampleOperation={imgExample}
+            numberFeedback={5}
+            nextScreen={() => navigation.navigate('tutorialMultiplication')}
+          />
+        </Container>
+      </ScrollView>
+    </>
+
   );
 }

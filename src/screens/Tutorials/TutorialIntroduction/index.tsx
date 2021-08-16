@@ -1,5 +1,5 @@
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import ex1 from '../../../assets/Ex1.png';
 import ex2 from '../../../assets/Ex2.png';
@@ -9,7 +9,6 @@ import imaNext from '../../../assets/bntAvancar.png';
 import {
   Container,
   Title,
-  Content,
   Text,
   ContainerExample,
   ImageExample,
@@ -21,55 +20,60 @@ import {
   ButtonNext,
   ImageButtonNext,
 } from './styles';
-import { Alert } from 'react-native';
+import { Alert, ScrollView } from 'react-native';
 
-export function  tutorialIntroduction() {
+export function tutorialIntroduction() {
   const navigation = useNavigation();
 
-  function handleAlert(){
-    Alert.alert('Pular tutorial 📚','Deseja pular essa etapa?',[
+  function handleAlert() {
+    Alert.alert('Pular tutorial 📚', 'Deseja pular essa etapa?', [
       {
-        text:'Não 😊',
-        style:'cancel'
+        text: 'Não 😊',
+        style: 'cancel'
       },
       {
-        text:'Sim 😀' ,
-        onPress:()=>navigation.navigate('selectOperations'),
+        text: 'Sim 😀',
+        onPress: () => navigation.navigate('selectOperations'),
       }
     ]);
   }
 
   return (
-    <Container>
-      <Title>Introdução</Title>
+    <>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
+        <Container>
 
-      <Content>
-        <Text>
-          Antes de iniciarmos o jogo, que tal entender um pouco sobre números e
-          quantidades. A representação do número e da quantidade de maçãs.
-          Exemplos:
-        </Text>
+          <Title>Introdução</Title>
 
-        <ContainerExample>
-          <ImageExample source={ex1}/>
-          <ImageExample source={ex2}/>
-          <ImageExample source={ex3}/>
-        </ContainerExample>
+          <Text>
+            Antes de iniciarmos o jogo, que tal entender um pouco sobre números e
+            quantidades. A representação do número e da quantidade de maçãs.
+            Exemplos:
+          </Text>
 
-        <ContainerFeedBack>
-          <TextFeedBack>1 de 6</TextFeedBack>
-        </ContainerFeedBack>
+          <ContainerExample>
+            <ImageExample source={ex1} />
+            <ImageExample source={ex2} />
+            <ImageExample source={ex3} />
+          </ContainerExample>
 
-        <Footer>
-          <ButtonJump onPress={handleAlert}>
-            <TextButtonJump>Pular</TextButtonJump>
-          </ButtonJump>
+          <ContainerFeedBack>
+            <TextFeedBack>1 de 6</TextFeedBack>
+          </ContainerFeedBack>
 
-          <ButtonNext onPress={()=> navigation.navigate('tutorialOperations') }>
-            <ImageButtonNext source={imaNext} />
-          </ButtonNext>
-        </Footer>
-      </Content>
-    </Container>
+          <Footer>
+            <ButtonJump onPress={handleAlert}>
+              <TextButtonJump>Pular</TextButtonJump>
+            </ButtonJump>
+
+            <ButtonNext onPress={() => navigation.navigate('tutorialOperations')}>
+              <ImageButtonNext source={imaNext} />
+            </ButtonNext>
+          </Footer>
+        </Container>
+      </ScrollView>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import {StatusBar} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import ImageBackGround from '../../assets/Home.png';
@@ -15,7 +16,6 @@ import {
   ButtonStart,
   TextButtonStart,
 } from './styles';
-import { StatusBar } from 'expo-status-bar';
 
 export function Home() {
 

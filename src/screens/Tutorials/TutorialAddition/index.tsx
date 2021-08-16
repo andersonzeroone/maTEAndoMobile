@@ -9,21 +9,29 @@ import imgExample from '../../../assets/exAdicao.png'
 import {
   Container,
 } from '../StyleScreenOperations/style';
+import { ScrollView } from 'react-native';
 
 export function tutorialAddition() {
   const navigation = useNavigation();
 
   return (
-    <Container>
-      <TutotialStructure
-        nameOperation='Adicão'
-        imageOperation={addition}
-        description='É uma operação matemática com a finalidade de somar, adicionar,
+    <>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
+        <Container>
+          <TutotialStructure
+            nameOperation='Adicão'
+            imageOperation={addition}
+            description='É uma operação matemática com a finalidade de somar, adicionar,
         acrescentar. Exemplo:'
-        imageExampleOperation={imgExample}
-        numberFeedback={3}
-        nextScreen={()=> navigation.navigate('tutorialSubtraction')}
-      />
-    </Container>
+            imageExampleOperation={imgExample}
+            numberFeedback={3}
+            nextScreen={() => navigation.navigate('tutorialSubtraction')}
+          />
+        </Container>
+      </ScrollView>
+    </>
+
   );
 }

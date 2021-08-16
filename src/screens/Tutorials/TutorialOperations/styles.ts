@@ -12,19 +12,12 @@ export const Title = styled.Text`
   color: #7018C9;
   font-size: 40px;
   font-weight: bold;
-
 `;
 
 export const Text = styled.Text`
   font-size: 20px;
-`;
 
-export const Content = styled.View`
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 80%;
+  margin: 2% 0 4%;
 `;
 
 export const ContainerOperations = styled.View`
@@ -59,6 +52,8 @@ export const ContainerFeedBack = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
+  margin: 2% 0 4%;
 `;
 
 export const TextFeedBack = styled.Text`
