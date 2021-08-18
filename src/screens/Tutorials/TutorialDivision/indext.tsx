@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView } from 'react-native';
+import { ScrollView} from 'react-native';
 import { TutotialStructure } from '../../../components/TutotialStructure';
 
 import division from '../../../assets/divisao.png'

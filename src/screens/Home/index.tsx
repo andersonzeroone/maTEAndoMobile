@@ -1,6 +1,7 @@
-import React from 'react';
-import {StatusBar} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { StatusBar, BackHandler, Alert } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 import ImageBackGround from '../../assets/Home.png';
 import logo from '../../assets/Logo.png';
@@ -9,6 +10,9 @@ import iconcontrole from '../../assets/iconcontrole.png';
 import {
   Container,
   Header,
+  ButtonOptions,
+  ContainerMenu,
+  TextMenu,
   Logo,
   Footer,
   ContentFooter,
@@ -21,19 +25,56 @@ export function Home() {
 
   const navigation = useNavigation();
 
+  const backAction = () => {
+    Alert.alert('Sair', 'Deseja sair do jogo?', [
+      {
+        text: 'Não',
+        onPress: () => null,
+        style: 'cancel'
+      },
+      { text: 'Sim', onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
   return (
     <>
-      <StatusBar backgroundColor='#CCECFF'/>
+      <StatusBar backgroundColor='#CCECFF' barStyle='dark-content'/>
       <Container source={ImageBackGround} resizeMode='stretch'>
         <Header>
-          <Logo source={logo} />
-        </Header>
 
+          <ContainerMenu>
+            <ButtonOptions>
+              <TextMenu>Opções</TextMenu>
+              <Feather
+                name='settings'
+                size={25}
+              />
+            </ButtonOptions>
+
+            <ButtonOptions onPress={backAction}>
+              <TextMenu>Sair</TextMenu>
+              <Feather
+                name='log-out'
+                size={25}
+              />
+            </ButtonOptions>
+
+          </ContainerMenu>
+
+        </Header>
+        <Logo source={logo} />
         <Footer>
           <ContentFooter>
             <ImgControl source={iconcontrole} />
-            <ButtonStart onPress={()=> navigation.navigate('tutorialIntroduction')}>
-              <TextButtonStart>Jogar</TextButtonStart>
+            <ButtonStart onPress={() => navigation.navigate('tutorialIntroduction')}>
+              <TextButtonStart>Iniciar</TextButtonStart>
             </ButtonStart>
           </ContentFooter>
         </Footer>

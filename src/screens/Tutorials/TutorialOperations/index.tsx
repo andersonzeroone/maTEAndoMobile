@@ -71,7 +71,7 @@ export function tutorialOperations() {
 
             <CardOperation>
               <ImageOperations source={division} />
-              <TitleOperation>Divição</TitleOperation>
+              <TitleOperation>Divisão</TitleOperation>
             </CardOperation>
 
             <CardOperation>
