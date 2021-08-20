@@ -9,16 +9,16 @@ import home from '../../assets/home.png';
 import equal from '../../assets/igual.png';
 import interrogation from '../../assets/interrogacao.png';
 
-import zero from '../../assets/0.4.png';
-import one from '../../assets/1.4.png';
-import two from '../../assets/2.4.png';
-import three from '../../assets/3.4.png';
-import four from '../../assets/4.4.png';
-import five from '../../assets/5.4.png';
-import six from '../../assets/6.4.png';
-import seven from '../../assets/7.4.png';
-import eight from '../../assets/8.4.png';
-import nine from '../../assets/9.4.png';
+import zero from '../../assets/0.png';
+import one from '../../assets/1.png';
+import two from '../../assets/2.png';
+import three from '../../assets/3.png';
+import four from '../../assets/4.png';
+import five from '../../assets/5.png';
+import six from '../../assets/6.png';
+import seven from '../../assets/7.png';
+import eight from '../../assets/8.png';
+import nine from '../../assets/9.png';
 
 import {
   additionOperation,
@@ -27,7 +27,7 @@ import {
   multiplicationOperation
 } from '../../operations';
 
-import { getRandom, getMinMaxValueAlternative } from '../../utils/utils';
+import { getRandom, getMinMaxValueAlternative, arrayAlternativesRandom } from '../../utils/utils';
 
 const imagesNumbers = [
   { number: 0, image: zero },
@@ -83,6 +83,7 @@ export interface alternativesProps {
 }
 
 export function play() {
+
   const navigation = useNavigation();
   const route = useRoute();
 
@@ -169,53 +170,36 @@ export function play() {
   }
 
   function generateArrayAlternatives(result: number) {
-    const { valueMax, valueMin } = getMinMaxValueAlternative(result);
-    let getRandam = true;
-    const arrayAlternatives: number[] = [];
-
-    while (getRandam) {
-      let numberRandom = getRandom(valueMin, valueMax);
-
-      if (arrayAlternatives.length == 3) {
-        let indexRandom = getRandom(0, 3);
-        arrayAlternatives.splice(indexRandom, 0, result);
-        getRandam = false;
-
-        handleArrayAlternatives(arrayAlternatives);
-        return;
-      }
-
-      if (!(arrayAlternatives.includes(numberRandom) || numberRandom === result)) {
-        arrayAlternatives.push(numberRandom);
-      }
-
-    }
-  }
-
-  function handleArrayAlternatives(alternatives: number[]) {
     const arrAlternativeObject: alternativesProps[] = []
 
-    alternatives.map((item, index) => {
-      var valueInArr: string[] = []
-      var numberPrimary = item;
-      var numberSencondary = 0;
+    const testeArray = arrayAlternativesRandom(result);
 
-      if (item >= 10) {
-        valueInArr = Array.from(item.toString());
-        numberPrimary = parseInt(valueInArr[0]);
-        numberSencondary = parseInt(valueInArr[1]);
-      }
+    if(!!testeArray){
+      testeArray.map((item, index) => {
+        var valueInArr: string[] = []
+        var numberPrimary = item;
+        var numberSencondary = 0;
 
-      arrAlternativeObject.push({
-        id: item,
-        numberPrimary,
-        numberSencondary
+        if(item >= 10) {
+          valueInArr = Array.from(item.toString());
+          numberPrimary = parseInt(valueInArr[0]);
+          numberSencondary = parseInt(valueInArr[1]);
+        }
+
+        arrAlternativeObject.push({
+          id: item,
+          numberPrimary,
+          numberSencondary
+        });
+
       });
+    }
 
-    });
 
     setAlternativesImages(arrAlternativeObject);
+
   }
+
 
   function checkedAlternative(value: number) {
     if (value === resultOperation.result) {
@@ -274,7 +258,7 @@ export function play() {
             <TextMenu>Sair</TextMenu>
             <Feather
               name='log-out'
-              size={20}
+              size={25}
               color='#7018C9'
             />
           </ButtonOptions>

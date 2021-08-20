@@ -34,7 +34,6 @@ export function selectObjects(){
   const route = useRoute();
 
   const dataRoute = route.params as Params;
-
   function handleNavigation(objectSelect:any){
     navigation.navigate('play',{
       ...dataRoute,

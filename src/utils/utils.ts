@@ -5,11 +5,9 @@ export function getRandom(min:number,max:number){
 }
 
 export function getMinMaxValueAlternative(value:number){
-  console.log('valor:', value)
   let valueMaxAlternatives:number = 0;
   let valueMinAlternatives:number = 0;
 
-  console.log('inicial:','Max:',valueMaxAlternatives,'Min:',valueMinAlternatives)
   if(value <= 3){
     valueMaxAlternatives = value + 3;
     valueMinAlternatives = 1;
@@ -24,7 +22,27 @@ export function getMinMaxValueAlternative(value:number){
     valueMin:valueMinAlternatives,
     valueMax:valueMaxAlternatives
   }
-  console.log(dataMinMaxValueAlternative)
 
   return dataMinMaxValueAlternative;
+}
+
+export function arrayAlternativesRandom(result:number){
+  const { valueMax, valueMin } = getMinMaxValueAlternative(result);
+    let getRandam = true;
+    const arrayAlternatives: number[] = [];
+
+    while (getRandam) {
+      let numberRandom = getRandom(valueMin, valueMax);
+
+      if (arrayAlternatives.length == 3) {
+        let indexRandom = getRandom(0, 3);
+        arrayAlternatives.splice(indexRandom, 0, result);
+        getRandam = false;
+        return arrayAlternatives;
+      }
+
+      if (!(arrayAlternatives.includes(numberRandom) || numberRandom === result)) {
+        arrayAlternatives.push(numberRandom);
+      }
+    }
 }

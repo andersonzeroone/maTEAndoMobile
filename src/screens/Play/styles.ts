@@ -22,7 +22,9 @@ export const IconHome = styled.Image`
   height: 40px;
 `;
 
-export const Logo = styled.Image``;
+export const Logo = styled.Image`
+  margin-left: 10%;
+`;
 
 export const ButtonOptions = styled.TouchableOpacity`
   flex-direction: row;
@@ -31,7 +33,7 @@ export const ButtonOptions = styled.TouchableOpacity`
 export const TextMenu = styled.Text`
   font-size: 15px;
   font-weight: bold;
-  margin-right: 1%;
+  margin-right: 2%;
 
   color: #7018C9;
 `;
