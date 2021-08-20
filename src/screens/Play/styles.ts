@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  padding: 20px;
+  padding: 1% 2%;
   justify-content: center;
   align-items: center;
 `;
@@ -10,9 +10,9 @@ export const Header = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 25px;
-
   width: 100%;
+
+  margin-bottom: 5%;
 `;
 
 export const ButtonGoBackHome = styled.TouchableOpacity``;
@@ -23,6 +23,18 @@ export const IconHome = styled.Image`
 `;
 
 export const Logo = styled.Image``;
+
+export const ButtonOptions = styled.TouchableOpacity`
+  flex-direction: row;
+`;
+
+export const TextMenu = styled.Text`
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 1%;
+
+  color: #7018C9;
+`;
 
 export const Content = styled.View`
   flex-direction: row;

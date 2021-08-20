@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 2% 1% 0;
 `;
 
 export const ContentHeader = styled.View`
@@ -11,8 +11,6 @@ export const ContentHeader = styled.View`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-
-  margin-top: 20px;
 `;
 
 export const ContenteTitle = styled.View`
@@ -28,6 +26,18 @@ export const Title = styled.Text`
 
 export const IconClick = styled.Image``;
  
+export const ButtonOptions = styled.TouchableOpacity`
+  flex-direction: row;
+`;
+
+export const TextMenu = styled.Text`
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 1%;
+
+  color: #7018C9;
+`;
+
 export const ButtonGoBack = styled.TouchableOpacity``;
 
 export const ImageButtonGoBack = styled.Image`

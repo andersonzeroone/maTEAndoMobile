@@ -1,7 +1,10 @@
-import React from 'react';
-import { View,ImageSourcePropType} from 'react-native';
+import React, {useEffect}from 'react';
+import {  Alert, BackHandler, ImageSourcePropType} from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+
 import { CardPrimary } from '../../components/CardsPrimary';
+
 import imageGoBack from '../../assets/bntVoltar.png';
 import iconClick from '../../assets/click.png';
 import apple from '../../assets/maca.png';
@@ -15,6 +18,8 @@ import {
   ContenteTitle,
   IconClick,
   Title,
+  ButtonOptions,
+  TextMenu,
   ButtonGoBack,
   ImageButtonGoBack,
   ContentCardsOperations,
@@ -37,6 +42,25 @@ export function selectObjects(){
     });
   }
 
+  const backAction = () => {
+    Alert.alert('Sair', 'Deseja sair do jogo?', [
+      {
+        text: 'Não',
+        onPress: () => null,
+        style: 'cancel'
+      },
+      { text: 'Sim', onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return(
     <Container>
       <ContentHeader>
@@ -49,7 +73,14 @@ export function selectObjects(){
           <IconClick source={iconClick}/>
         </ContenteTitle>
 
-         <View/> 
+        <ButtonOptions onPress={backAction}>
+          <TextMenu>Sair</TextMenu>
+          <Feather
+            name='log-out'
+            size={20}
+            color='#7018C9'
+          />
+        </ButtonOptions> 
       </ContentHeader>
 
       <ContentCardsOperations>

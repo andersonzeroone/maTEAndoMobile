@@ -1,7 +1,8 @@
-import React, {useEffect, useState } from 'react';
-import { ScrollView, View, Text, ImageSourcePropType } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, ImageSourcePropType, Alert, BackHandler } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import {ModalAnswer} from '../../components/ModalAnswer';
+import { ModalAnswer } from '../../components/ModalAnswer';
 
 import logo from '../../assets/Logo.png';
 import home from '../../assets/home.png';
@@ -19,8 +20,8 @@ import seven from '../../assets/7.4.png';
 import eight from '../../assets/8.4.png';
 import nine from '../../assets/9.4.png';
 
-import { 
-  additionOperation, 
+import {
+  additionOperation,
   subtractionOperation,
   divisionOperation,
   multiplicationOperation
@@ -29,16 +30,16 @@ import {
 import { getRandom, getMinMaxValueAlternative } from '../../utils/utils';
 
 const imagesNumbers = [
-  {number:0,image:zero},
-  {number:1,image:one},
-  {number:2,image:two},
-  {number:3,image:three},
-  {number:4,image:four},
-  {number:5,image:five},
-  {number:6,image:six},
-  {number:7,image:seven},
-  {number:8,image:eight},
-  {number:9,image:nine},
+  { number: 0, image: zero },
+  { number: 1, image: one },
+  { number: 2, image: two },
+  { number: 3, image: three },
+  { number: 4, image: four },
+  { number: 5, image: five },
+  { number: 6, image: six },
+  { number: 7, image: seven },
+  { number: 8, image: eight },
+  { number: 9, image: nine },
 ]
 import {
   Container,
@@ -46,6 +47,8 @@ import {
   ButtonGoBackHome,
   IconHome,
   Logo,
+  ButtonOptions,
+  TextMenu,
   Content,
   ContainerElementsPrimary,
   ElementsPrimary,
@@ -60,7 +63,6 @@ import {
   ContainerMensageError,
   TextMensageError
 } from './styles';
-import { func } from 'joi';
 
 interface resultProps {
   numberPrimary: number;
@@ -74,10 +76,10 @@ interface Params {
   object: ImageSourcePropType;
 }
 
-export interface alternativesProps{
-  id:number,
-  numberPrimary:number,
-  numberSencondary:number,
+export interface alternativesProps {
+  id: number,
+  numberPrimary: number,
+  numberSencondary: number,
 }
 
 export function play() {
@@ -98,59 +100,59 @@ export function play() {
   >([]);
 
   const [alternativesImages, setAlternativesImages] = useState<alternativesProps[]>([]);
-  
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const [nivel, setNivel] = useState<number>(2);
 
-  const [mensageError,setMensageError] = useState(false);
+  const [mensageError, setMensageError] = useState(false);
 
   useEffect(() => {
     start(operation);
   }, []);
 
-  function start(nameOperation: string | null){
+  function start(nameOperation: string | null) {
     let limit = 4;
 
-      if (nivel > 3) {
-        limit = 5;
-      }
+    if (nivel > 3) {
+      limit = 5;
+    }
 
-      if (nivel > 10) {
-        limit = 7;
-      }
+    if (nivel > 10) {
+      limit = 7;
+    }
 
-      if (nivel > 14) {
-        limit = 10;
-      }
+    if (nivel > 14) {
+      limit = 10;
+    }
 
-      if(nameOperation === 'addition'){
-        const addtion = additionOperation(limit);
-        setResultOperation(addtion);
-        handleArrayElements(addtion);
-        generateArrayAlternatives(addtion.result);
-      }
+    if (nameOperation === 'addition') {
+      const addtion = additionOperation(limit);
+      setResultOperation(addtion);
+      handleArrayElements(addtion);
+      generateArrayAlternatives(addtion.result);
+    }
 
-      if(nameOperation === 'subtraction'){
-        const subtraction = subtractionOperation(limit);
-        setResultOperation(subtraction);
-        handleArrayElements(subtraction);
-        generateArrayAlternatives(subtraction.result);
-      }
+    if (nameOperation === 'subtraction') {
+      const subtraction = subtractionOperation(limit);
+      setResultOperation(subtraction);
+      handleArrayElements(subtraction);
+      generateArrayAlternatives(subtraction.result);
+    }
 
-      if(nameOperation === 'division'){
-        const division = divisionOperation(limit);
-        setResultOperation(division);
-        handleArrayElements(division);
-        generateArrayAlternatives(division.result);
-      }
+    if (nameOperation === 'division') {
+      const division = divisionOperation(limit);
+      setResultOperation(division);
+      handleArrayElements(division);
+      generateArrayAlternatives(division.result);
+    }
 
-      if(nameOperation === 'multiplication'){
-        const multiplication = multiplicationOperation(limit);
-        setResultOperation(multiplication);
-        handleArrayElements(multiplication);
-        generateArrayAlternatives(multiplication.result);
-      }      
+    if (nameOperation === 'multiplication') {
+      const multiplication = multiplicationOperation(limit);
+      setResultOperation(multiplication);
+      handleArrayElements(multiplication);
+      generateArrayAlternatives(multiplication.result);
+    }
   }
 
   function handleArrayElements(result: resultProps) {
@@ -166,50 +168,46 @@ export function play() {
     setNumberElementPrimary(arrayElmentsPrimary);
   }
 
-  function generateArrayAlternatives(result: number){
+  function generateArrayAlternatives(result: number) {
     const { valueMax, valueMin } = getMinMaxValueAlternative(result);
-    console.log('********')
-    console.log('result:',result,'valueMax:', valueMax, 'ValueMin:',valueMin)
     let getRandam = true;
     const arrayAlternatives: number[] = [];
 
-    while(getRandam){
+    while (getRandam) {
       let numberRandom = getRandom(valueMin, valueMax);
 
-      if(arrayAlternatives.length == 3){
+      if (arrayAlternatives.length == 3) {
         let indexRandom = getRandom(0, 3);
-        console.log('indexRandom', indexRandom)
         arrayAlternatives.splice(indexRandom, 0, result);
         getRandam = false;
 
         handleArrayAlternatives(arrayAlternatives);
-        console.log(arrayAlternatives)
         return;
-      } 
+      }
 
-      if(!(arrayAlternatives.includes(numberRandom) || numberRandom === result)){
+      if (!(arrayAlternatives.includes(numberRandom) || numberRandom === result)) {
         arrayAlternatives.push(numberRandom);
       }
 
     }
   }
 
-  function handleArrayAlternatives(alternatives:number[]){
-    const arrAlternativeObject:alternativesProps[] = []
+  function handleArrayAlternatives(alternatives: number[]) {
+    const arrAlternativeObject: alternativesProps[] = []
 
-    alternatives.map((item,index)=>{
-      var valueInArr:string[] = []
+    alternatives.map((item, index) => {
+      var valueInArr: string[] = []
       var numberPrimary = item;
       var numberSencondary = 0;
 
-      if(item >= 10){
+      if (item >= 10) {
         valueInArr = Array.from(item.toString());
         numberPrimary = parseInt(valueInArr[0]);
-        numberSencondary = parseInt(valueInArr[1]);        
+        numberSencondary = parseInt(valueInArr[1]);
       }
 
       arrAlternativeObject.push({
-        id:item,
+        id: item,
         numberPrimary,
         numberSencondary
       });
@@ -219,41 +217,67 @@ export function play() {
     setAlternativesImages(arrAlternativeObject);
   }
 
-  function checkedAlternative(value:number){
-    if(value === resultOperation.result){
+  function checkedAlternative(value: number) {
+    if (value === resultOperation.result) {
       setModalVisible(true);
 
-      setTimeout(function(){
+      setTimeout(function () {
         setModalVisible(false);
       }, 1000);
 
-      setNivel(state => (state +1));
+      setNivel(state => (state + 1));
       start(operation);
       return;
     }
 
     setMensageError(true);
 
-    setTimeout(function(){
+    setTimeout(function () {
       setMensageError(false);
     }, 3000);
   }
 
+  const backAction = () => {
+    Alert.alert('Sair', 'Deseja sair do jogo?', [
+      {
+        text: 'Não',
+        onPress: () => null,
+        style: 'cancel'
+      },
+      { text: 'Sim', onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return (
     <ScrollView>
-      <Container> 
+      <Container>
         <ModalAnswer
           title='Parabéns você acertou!'
           emoji='😀'
-          visibliModal={modalVisible}   
+          visibliModal={modalVisible}
         />
         <Header>
-          <ButtonGoBackHome onPress={()=>navigation.goBack()}>
+          <ButtonGoBackHome onPress={() => navigation.goBack()}>
             <IconHome source={home} />
           </ButtonGoBackHome>
 
           <Logo source={logo} />
-          <View />
+          <ButtonOptions onPress={backAction}>
+            <TextMenu>Sair</TextMenu>
+            <Feather
+              name='log-out'
+              size={20}
+              color='#7018C9'
+            />
+          </ButtonOptions>
         </Header>
 
         <Content>
@@ -275,20 +299,20 @@ export function play() {
           <ImageInterrogation source={interrogation} />
         </Content>
         {
-          mensageError&&(
+          mensageError && (
             <ContainerMensageError>
-              <TextMensageError>Por favor tente novamente 😃</TextMensageError>  
-            </ContainerMensageError> 
+              <TextMensageError>Por favor tente novamente 😃</TextMensageError>
+            </ContainerMensageError>
           )
         }
-   
+
         <ContainerAlternatives>
-          {alternativesImages.map((item, index)=>(
-            item.id < 10 ?(
+          {alternativesImages.map((item, index) => (
+            item.id < 10 ? (
               <CardAlternative key={index} onPress={() => checkedAlternative(item.id)}>
-              < NumberCard source={imagesNumbers[item.id].image} />
+                < NumberCard source={imagesNumbers[item.id].image} />
               </CardAlternative>
-            ):(
+            ) : (
               <CardAlternative key={index} onPress={() => checkedAlternative(item.id)}>
                 <NumberCard source={imagesNumbers[alternativesImages[index].numberPrimary].image} />
                 <NumberCard source={imagesNumbers[alternativesImages[index].numberSencondary].image} />

@@ -55,6 +55,7 @@ export function Home() {
               <Feather
                 name='settings'
                 size={25}
+                color='#7018C9'
               />
             </ButtonOptions>
 
@@ -63,6 +64,7 @@ export function Home() {
               <Feather
                 name='log-out'
                 size={25}
+                color='#7018C9'
               />
             </ButtonOptions>
 

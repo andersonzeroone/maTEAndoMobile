@@ -2,11 +2,9 @@ import styled from 'styled-components/native';
 
 export const Container = styled.ImageBackground`
   flex: 1;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 1% 0 8%;
+  align-items: center;
+  padding: 1%;
 `;
 
 export const Header = styled.View`
@@ -14,6 +12,8 @@ export const Header = styled.View`
   align-items: center;
   justify-content: flex-end;
   width: 100%;
+
+  margin-bottom: 5%;
 `;
 
 export const ButtonOptions = styled.TouchableOpacity`
@@ -30,9 +30,12 @@ export const TextMenu = styled.Text`
   font-size: 20px;
   font-weight: bold;
   margin: 0 4% 0 5%;
+
+  color: #7018C9;
 `;
 
-export const Logo = styled.Image``;
+export const Logo = styled.Image`
+`;
 
 export const Footer = styled.View`
   flex-direction: row;
@@ -46,7 +49,7 @@ export const ContentFooter = styled.View`
 `;
 
 export const ImgControl = styled.Image`
-  margin-bottom: 20px;
+  margin:30% 0 20%;
 `;
 
 export const ButtonStart = styled.TouchableOpacity`
