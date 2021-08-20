@@ -60,6 +60,7 @@ import {
   ContainerMensageError,
   TextMensageError
 } from './styles';
+import { func } from 'joi';
 
 interface resultProps {
   numberPrimary: number;
@@ -96,8 +97,6 @@ export function play() {
     number[]
   >([]);
 
-  const [alternatives, setAlternatives] = useState<number[]>([]);
-
   const [alternativesImages, setAlternativesImages] = useState<alternativesProps[]>([]);
   
   const [modalVisible, setModalVisible] = useState(false);
@@ -107,7 +106,7 @@ export function play() {
   const [mensageError,setMensageError] = useState(false);
 
   useEffect(() => {
-    start(operation, 2);
+    start(operation);
   }, []);
 
   function start(nameOperation: string | null){
@@ -129,29 +128,28 @@ export function play() {
         const addtion = additionOperation(limit);
         setResultOperation(addtion);
         handleArrayElements(addtion);
-        getRandomAlternative(addtion.result);
+        generateArrayAlternatives(addtion.result);
       }
 
-      // ||  'division' || 'multiplication' 
       if(nameOperation === 'subtraction'){
         const subtraction = subtractionOperation(limit);
         setResultOperation(subtraction);
         handleArrayElements(subtraction);
-        getRandomAlternative(subtraction.result);
+        generateArrayAlternatives(subtraction.result);
       }
 
       if(nameOperation === 'division'){
         const division = divisionOperation(limit);
         setResultOperation(division);
         handleArrayElements(division);
-        getRandomAlternative(division.result);
+        generateArrayAlternatives(division.result);
       }
 
       if(nameOperation === 'multiplication'){
         const multiplication = multiplicationOperation(limit);
         setResultOperation(multiplication);
         handleArrayElements(multiplication);
-        getRandomAlternative(multiplication.result);
+        generateArrayAlternatives(multiplication.result);
       }      
   }
 
@@ -168,55 +166,57 @@ export function play() {
     setNumberElementPrimary(arrayElmentsPrimary);
   }
 
-  function getRandomAlternative(result: number){
+  function generateArrayAlternatives(result: number){
     const { valueMax, valueMin } = getMinMaxValueAlternative(result);
-    var newValueMax = valueMax;
+    console.log('********')
+    console.log('result:',result,'valueMax:', valueMax, 'ValueMin:',valueMin)
+    let getRandam = true;
     const arrayAlternatives: number[] = [];
-    const arrAlternativeObject:alternativesProps[] = []
-    console.log('--------------');
-    console.log('max:',valueMax ,'-', valueMin)
-    
-    const array = [...Array(newValueMax - valueMin)].map(() => {
-      let numberRandom = getRandom(valueMin, newValueMax);
-      console.log('numberRandom',numberRandom);
-      if ( arrayAlternatives.length == 3 ||numberRandom === result || arrayAlternatives.includes(numberRandom)){
-         newValueMax ++;
-        console.log('tive que implementar newValueMax:', valueMax)
-        return;
-      }
-      console.log('não precisei implementar');
-      arrayAlternatives.push(numberRandom);
-    });
 
-    let indexRandom = getRandom(0, 3);
-    console.log('indexRandom:', indexRandom);
-    arrayAlternatives.splice(indexRandom, 0, result);
-    console.log(arrayAlternatives)
-    setAlternatives(arrayAlternatives);
-    
-    arrayAlternatives.map((item,index)=>{
+    while(getRandam){
+      let numberRandom = getRandom(valueMin, valueMax);
+
+      if(arrayAlternatives.length == 3){
+        let indexRandom = getRandom(0, 3);
+        console.log('indexRandom', indexRandom)
+        arrayAlternatives.splice(indexRandom, 0, result);
+        getRandam = false;
+
+        handleArrayAlternatives(arrayAlternatives);
+        console.log(arrayAlternatives)
+        return;
+      } 
+
+      if(!(arrayAlternatives.includes(numberRandom) || numberRandom === result)){
+        arrayAlternatives.push(numberRandom);
+      }
+
+    }
+  }
+
+  function handleArrayAlternatives(alternatives:number[]){
+    const arrAlternativeObject:alternativesProps[] = []
+
+    alternatives.map((item,index)=>{
       var valueInArr:string[] = []
       var numberPrimary = item;
       var numberSencondary = 0;
-    
+
       if(item >= 10){
         valueInArr = Array.from(item.toString());
         numberPrimary = parseInt(valueInArr[0]);
         numberSencondary = parseInt(valueInArr[1]);        
       }
-      
-      const dataAlternatives = {
+
+      arrAlternativeObject.push({
         id:item,
         numberPrimary,
         numberSencondary
-      }
-
-      arrAlternativeObject.push(dataAlternatives)
+      });
 
     });
-    console.log('*********')
+
     setAlternativesImages(arrAlternativeObject);
-   
   }
 
   function checkedAlternative(value:number){
@@ -248,19 +248,11 @@ export function play() {
           visibliModal={modalVisible}   
         />
         <Header>
-          <ButtonGoBackHome onPress={() => navigation.navigate('selectOperations')}>
+          <ButtonGoBackHome onPress={()=>navigation.goBack()}>
             <IconHome source={home} />
           </ButtonGoBackHome>
 
           <Logo source={logo} />
-          {/* <Text>
-            {resultOperation.numberPrimary} | {resultOperation.numberSecondary}{' '}
-            - {resultOperation.result}
-          </Text> 
-
-          {alternatives.map((item, index) => (
-            <Text key={item}>({item})</Text>
-          ))}*/}
           <View />
         </Header>
 
