@@ -42,29 +42,38 @@ export const Content = styled.View`
   flex-direction: row;
   align-items: center;
   width: 100%;
+
+`;
+
+export const ContainerOperation = styled.View`
+  flex-direction: row;
+  width: 85%;
+  align-items:center;
+  justify-content: space-around;
 `;
 
 export const ContainerElementsPrimary = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
-  width: 36%;
+  width: 40%;
 `;
 
 export const ContainerElementsSecondary = styled(ContainerElementsPrimary)``;
 
 export const ElementsPrimary = styled.Image`
-  margin: 0 17px 15px 0;
+  margin-right: 2%;
+  width: 28%;
 `;
 
 export const ImageOperation = styled.Image`
-  margin-right: 6%;
+  width: 9%;
 `;
  
 export const ElementsSecondary = styled.Image``;
 
 export const ImageEqual = styled.Image`
-  width: 35px;
-  height: 35px;
+  /* width: 35px;
+  height: 35px; */
 `;
 
 export const ImageInterrogation = styled.Image``;
@@ -72,17 +81,17 @@ export const ImageInterrogation = styled.Image``;
 export const ContainerAlternatives = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 
-  width: 85%;
+  width: 100%;
 
-  margin-top: 35px;
+  margin-top: 10%;
 `;
 
 export const CardAlternative = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   padding: 10px;
 
   border-radius: 10px;
@@ -91,6 +100,5 @@ export const CardAlternative = styled.TouchableOpacity`
 `;
 
 export const NumberCard = styled.Image`
-  height: 80px;
-  width: 70px;
+  margin-right: 1%;
 `;

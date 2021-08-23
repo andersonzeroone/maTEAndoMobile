@@ -53,6 +53,7 @@ import {
   ButtonOptions,
   TextMenu,
   Content,
+  ContainerOperation,
   ContainerElementsPrimary,
   ElementsPrimary,
   ContainerElementsSecondary,
@@ -103,7 +104,7 @@ export function play() {
   const [alternativesImages, setAlternativesImages] = useState<alternativesProps[]>([]);
 
   const [modalVisible, setModalVisible] = useState(false);
-  
+
   const [modalErrorVisible, setModalErrorVisible] = useState(false);
 
   const [nivel, setNivel] = useState<number>(2);
@@ -167,29 +168,29 @@ export function play() {
     const arrAlternativeObject: alternativesProps[] = []
 
     const arrayAlternatives: number[] = [];
-    var newArray:number[] = []
+    var newArray: number[] = []
 
     for (let x = valueMin; x <= valueMax; x++) {
       arrayAlternatives.push(x)
     }
 
-   if (result <= 3 && arrayAlternatives.length == 4) {
-      newArray = handleSortArr(arrayAlternatives); 
+    if (result <= 3 && arrayAlternatives.length == 4) {
+      newArray = handleSortArr(arrayAlternatives);
     }
 
     if (result <= 3 && arrayAlternatives.length == 5) {
-      arrayAlternatives.splice(arrayAlternatives.indexOf(result),1);
+      arrayAlternatives.splice(arrayAlternatives.indexOf(result), 1);
 
-      arrayAlternatives.splice(getRandom(0, 3),1);
+      arrayAlternatives.splice(getRandom(0, 3), 1);
       arrayAlternatives.splice(getRandom(0, 3), 0, result);
       newArray = arrayAlternatives;
     }
 
-    if ((result <= 3 || result >=4) && arrayAlternatives.length == 6) {
-      arrayAlternatives.splice(arrayAlternatives.indexOf(result),1);
+    if ((result <= 3 || result >= 4) && arrayAlternatives.length == 6) {
+      arrayAlternatives.splice(arrayAlternatives.indexOf(result), 1);
 
-      arrayAlternatives.splice(getRandom(0, 4),1);
-      arrayAlternatives.splice(getRandom(0, 3),1);
+      arrayAlternatives.splice(getRandom(0, 4), 1);
+      arrayAlternatives.splice(getRandom(0, 3), 1);
       arrayAlternatives.splice(getRandom(0, 3), 0, result);
 
       newArray = arrayAlternatives;
@@ -301,18 +302,21 @@ export function play() {
         </Header>
 
         <Content>
-          <ContainerElementsPrimary>
-            {numberElementPrimary.map((item, index) => (
-              <ElementsPrimary key={index} source={object} />
-            ))}
-          </ContainerElementsPrimary>
-          <ImageOperation source={imageOperation} />
+          <ContainerOperation>
+            <ContainerElementsPrimary>
+              {numberElementPrimary.map((item, index) => (
+                <ElementsPrimary key={index} source={object} />
+              ))}
+            </ContainerElementsPrimary>
+            <ImageOperation source={imageOperation} />
 
-          <ContainerElementsSecondary>
-            {numberElementSecondary.map((item, index) => (
-              <ElementsPrimary key={index} source={object} />
-            ))}
-          </ContainerElementsSecondary>
+            <ContainerElementsSecondary>
+              {numberElementSecondary.map((item, index) => (
+                <ElementsPrimary key={index} source={object} />
+              ))}
+            </ContainerElementsSecondary>
+          </ContainerOperation>
+
 
           <ImageEqual source={equal} />
 
