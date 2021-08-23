@@ -94,17 +94,3 @@ export const NumberCard = styled.Image`
   height: 80px;
   width: 70px;
 `;
-
-export const ContainerMensageError = styled.View`
-  border-width: 2px;
-  border-color: red;
-  border-radius:15px;
-
-  padding: 10px;
-  margin-top: 10px;
-`;
-
-
-export const TextMensageError = styled.Text`
-  font-size: 25px;
-`;

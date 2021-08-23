@@ -3,6 +3,8 @@ import { ScrollView, ImageSourcePropType, Alert, BackHandler } from 'react-nativ
 import { Feather } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ModalAnswer } from '../../components/ModalAnswer';
+import { ModalAnswerError } from '../../components/ModalAnswerError';
+
 import { Load } from '../../components/Load';
 
 import logo from '../../assets/Logo.png';
@@ -61,8 +63,6 @@ import {
   ContainerAlternatives,
   CardAlternative,
   NumberCard,
-  ContainerMensageError,
-  TextMensageError
 } from './styles';
 interface resultProps {
   numberPrimary: number;
@@ -103,6 +103,8 @@ export function play() {
   const [alternativesImages, setAlternativesImages] = useState<alternativesProps[]>([]);
 
   const [modalVisible, setModalVisible] = useState(false);
+  
+  const [modalErrorVisible, setModalErrorVisible] = useState(false);
 
   const [nivel, setNivel] = useState<number>(2);
 
@@ -241,10 +243,10 @@ export function play() {
       return;
     }
 
-    setMensageError(true);
+    setModalErrorVisible(true);
 
     setTimeout(function () {
-      setMensageError(false);
+      setModalErrorVisible(false);
     }, 3000);
   }
 
@@ -277,6 +279,10 @@ export function play() {
           title='Parabéns você acertou!'
           emoji='😀'
           visibliModal={modalVisible}
+        />
+        <ModalAnswerError
+          title='Por favor tente novamente 😃'
+          visibliModal={modalErrorVisible}
         />
         <Header>
           <ButtonGoBackHome onPress={() => navigation.navigate('selectOperations')}>
@@ -312,14 +318,6 @@ export function play() {
 
           <ImageInterrogation source={interrogation} />
         </Content>
-        {
-          mensageError && (
-            <ContainerMensageError>
-              <TextMensageError>Por favor tente novamente 😃</TextMensageError>
-            </ContainerMensageError>
-          )
-        }
-
         <ContainerAlternatives>
           {alternativesImages.map((item, index) => (
             item.id < 10 ? (
