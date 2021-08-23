@@ -8,11 +8,25 @@ export const Container = styled.View`
   height: 100%;
 `;
 
+export const Header = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 export const Title = styled.Text`
   color: #7018C9;
   font-size: 40px;
   font-weight: bold;
 
+`;
+
+export const ButtonGoBack = styled.TouchableOpacity``;
+
+export const ImageButtonGoBack = styled.Image`
+  width: 45px;
+  height: 35px;
 `;
 
 export const Text = styled.Text`

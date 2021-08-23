@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar, BackHandler, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+
+import {ModalPlayTutorial} from '../../components/ModalPlayTutorial';
 
 import ImageBackGround from '../../assets/Home.png';
 import logo from '../../assets/Logo.png';
@@ -25,6 +27,15 @@ export function Home() {
 
   const navigation = useNavigation();
 
+  const [modalvisible, setModalvisible] = useState(false);
+  
+  
+  function handlenaviagtion(route:string){
+    setModalvisible(false);
+    navigation.navigate(route);
+  }
+  
+  
   const backAction = () => {
     Alert.alert('Sair', 'Deseja sair do jogo?', [
       {
@@ -47,8 +58,13 @@ export function Home() {
     <>
       <StatusBar backgroundColor='#CCECFF' barStyle='dark-content'/>
       <Container source={ImageBackGround} resizeMode='stretch'>
+        <ModalPlayTutorial
+          title='Selecione uma opção'
+          visibliModal={modalvisible}
+          handleNavigation={()=> handlenaviagtion('tutorialIntroduction')}
+          handleNavigationPlay={()=> handlenaviagtion('selectOperations')}
+        />
         <Header>
-
           <ContainerMenu>
             <ButtonOptions>
               <TextMenu>Opções</TextMenu>
@@ -75,7 +91,7 @@ export function Home() {
         <Footer>
           <ContentFooter>
             <ImgControl source={iconcontrole} />
-            <ButtonStart onPress={() => navigation.navigate('tutorialIntroduction')}>
+            <ButtonStart style={{elevation:20}} onPress={() => setModalvisible(true)}>
               <TextButtonStart>Iniciar</TextButtonStart>
             </ButtonStart>
           </ContentFooter>
