@@ -86,7 +86,8 @@ export const CardAlternative = styled.TouchableOpacity`
   padding: 10px;
 
   border-radius: 10px;
-  background-color: #CCECFF;
+  /* background-color: #CCECFF; */
+  background: #B6DCF2;
 `;
 
 export const NumberCard = styled.Image`

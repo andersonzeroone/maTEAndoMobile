@@ -26,23 +26,14 @@ export function getMinMaxValueAlternative(value:number){
   return dataMinMaxValueAlternative;
 }
 
-export function arrayAlternativesRandom(result:number){
-  const { valueMax, valueMin } = getMinMaxValueAlternative(result);
-    let getRandam = true;
-    const arrayAlternatives: number[] = [];
 
-    while (getRandam) {
-      let numberRandom = getRandom(valueMin, valueMax);
-
-      if (arrayAlternatives.length == 3) {
-        let indexRandom = getRandom(0, 3);
-        arrayAlternatives.splice(indexRandom, 0, result);
-        getRandam = false;
-        return arrayAlternatives;
-      }
-
-      if (!(arrayAlternatives.includes(numberRandom) || numberRandom === result)) {
-        arrayAlternatives.push(numberRandom);
-      }
-    }
+export function handleSortArr(arr: number[]) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    // Escolhendo elemento aleatório
+    const j = Math.floor(Math.random() * (i + 1));
+    // Reposicionando elemento
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  // Retornando array com aleatoriedade
+  return arr;
 }

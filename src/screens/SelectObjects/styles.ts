@@ -49,9 +49,9 @@ export const ContentCardsOperations = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 70%;
+  width: 90%;
 
-  margin-top: 50px;
+  margin-top: 5px;
 `;
 
 

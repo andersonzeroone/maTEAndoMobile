@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { ScrollView, ImageSourcePropType, Alert, BackHandler } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ModalAnswer } from '../../components/ModalAnswer';
+import { Load } from '../../components/Load';
 
 import logo from '../../assets/Logo.png';
 import home from '../../assets/home.png';
@@ -27,7 +28,7 @@ import {
   multiplicationOperation
 } from '../../operations';
 
-import { getRandom, getMinMaxValueAlternative, arrayAlternativesRandom } from '../../utils/utils';
+import { getRandom, getMinMaxValueAlternative, handleSortArr } from '../../utils/utils';
 
 const imagesNumbers = [
   { number: 0, image: zero },
@@ -63,7 +64,6 @@ import {
   ContainerMensageError,
   TextMensageError
 } from './styles';
-
 interface resultProps {
   numberPrimary: number;
   numberSecondary: number;
@@ -87,8 +87,8 @@ export function play() {
   const navigation = useNavigation();
   const route = useRoute();
 
+  const [loading, setLoading] = useState(true);
   const { operation, imageOperation, object } = route.params as Params;
-
   const [resultOperation, setResultOperation] = useState<resultProps>(
     {} as resultProps
   );
@@ -109,22 +109,26 @@ export function play() {
   const [mensageError, setMensageError] = useState(false);
 
   useEffect(() => {
-    start(operation);
+
+    // setTimeout(function () {
+    //   setLoading(false);
+    //   start(operation);
+    // }, 1000);
+    start(operation)
   }, []);
 
   function start(nameOperation: string | null) {
     let limit = 4;
-
-    if (nivel > 3) {
-      limit = 5;
-    }
-
-    if (nivel > 10) {
+    if (nivel > 4) {
       limit = 7;
     }
 
-    if (nivel > 14) {
+    if (nivel > 10) {
       limit = 10;
+    }
+
+    if (nivel > 14) {
+      limit = 12;
     }
 
     if (nameOperation === 'addition') {
@@ -156,6 +160,61 @@ export function play() {
     }
   }
 
+  function generateArrayAlternatives(result: number) {
+    const { valueMax, valueMin } = getMinMaxValueAlternative(result);
+    const arrAlternativeObject: alternativesProps[] = []
+
+    const arrayAlternatives: number[] = [];
+    var newArray:number[] = []
+
+    for (let x = valueMin; x <= valueMax; x++) {
+      arrayAlternatives.push(x)
+    }
+
+   if (result <= 3 && arrayAlternatives.length == 4) {
+      newArray = handleSortArr(arrayAlternatives); 
+    }
+
+    if (result <= 3 && arrayAlternatives.length == 5) {
+      arrayAlternatives.splice(arrayAlternatives.indexOf(result),1);
+
+      arrayAlternatives.splice(getRandom(0, 3),1);
+      arrayAlternatives.splice(getRandom(0, 3), 0, result);
+      newArray = arrayAlternatives;
+    }
+
+    if ((result <= 3 || result >=4) && arrayAlternatives.length == 6) {
+      arrayAlternatives.splice(arrayAlternatives.indexOf(result),1);
+
+      arrayAlternatives.splice(getRandom(0, 4),1);
+      arrayAlternatives.splice(getRandom(0, 3),1);
+      arrayAlternatives.splice(getRandom(0, 3), 0, result);
+
+      newArray = arrayAlternatives;
+    }
+
+    newArray.map((item, index) => {
+      var valueInArr: string[] = []
+      var numberPrimary = item;
+      var numberSencondary = 0;
+
+      if (item >= 10) {
+        valueInArr = Array.from(item.toString());
+        numberPrimary = parseInt(valueInArr[0]);
+        numberSencondary = parseInt(valueInArr[1]);
+      }
+
+      arrAlternativeObject.push({
+        id: item,
+        numberPrimary,
+        numberSencondary
+      });
+
+    });
+
+    setAlternativesImages(arrAlternativeObject);
+  }
+
   function handleArrayElements(result: resultProps) {
     const arrayElmentsPrimary = [...Array(result.numberPrimary)].map(() =>
       getRandom(1, result.numberPrimary)
@@ -168,38 +227,6 @@ export function play() {
     setNumberElementSecondary(arrayElmentsSecondary);
     setNumberElementPrimary(arrayElmentsPrimary);
   }
-
-  function generateArrayAlternatives(result: number) {
-    const arrAlternativeObject: alternativesProps[] = []
-
-    const testeArray = arrayAlternativesRandom(result);
-
-    if(!!testeArray){
-      testeArray.map((item, index) => {
-        var valueInArr: string[] = []
-        var numberPrimary = item;
-        var numberSencondary = 0;
-
-        if(item >= 10) {
-          valueInArr = Array.from(item.toString());
-          numberPrimary = parseInt(valueInArr[0]);
-          numberSencondary = parseInt(valueInArr[1]);
-        }
-
-        arrAlternativeObject.push({
-          id: item,
-          numberPrimary,
-          numberSencondary
-        });
-
-      });
-    }
-
-
-    setAlternativesImages(arrAlternativeObject);
-
-  }
-
 
   function checkedAlternative(value: number) {
     if (value === resultOperation.result) {
@@ -221,7 +248,7 @@ export function play() {
     }, 3000);
   }
 
-  const backAction = () => {
+  const backAction = useCallback(() => {
     Alert.alert('Sair', 'Deseja sair do jogo?', [
       {
         text: 'Não',
@@ -231,7 +258,7 @@ export function play() {
       { text: 'Sim', onPress: () => BackHandler.exitApp() }
     ]);
     return true;
-  };
+  }, []);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -239,6 +266,9 @@ export function play() {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
+  // if (loading)
+  //   return <Load />
 
   return (
     <ScrollView>
@@ -249,7 +279,7 @@ export function play() {
           visibliModal={modalVisible}
         />
         <Header>
-          <ButtonGoBackHome onPress={() => navigation.goBack()}>
+          <ButtonGoBackHome onPress={() => navigation.navigate('selectOperations')}>
             <IconHome source={home} />
           </ButtonGoBackHome>
 
