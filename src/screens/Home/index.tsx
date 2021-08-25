@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar, BackHandler, Alert } from 'react-native';
+import { Modal, StatusBar, BackHandler, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-import {ModalPlayTutorial} from '../../components/ModalPlayTutorial';
+import { ModalPlayTutorial } from '../../components/ModalPlayTutorial';
 
 import ImageBackGround from '../../assets/Home.png';
 import logo from '../../assets/Logo.png';
@@ -28,14 +28,18 @@ export function Home() {
   const navigation = useNavigation();
 
   const [modalvisible, setModalvisible] = useState(false);
-  
-  
-  function handlenaviagtion(route:string){
-    setModalvisible(false);
+
+
+  function handlenaviagtion(route: string) {
+    setModalvisible(state => (!state));
     navigation.navigate(route);
   }
-  
-  
+
+  function handlemodal() {
+    setModalvisible(state => (!state));
+  }
+
+
   const backAction = () => {
     Alert.alert('Sair', 'Deseja sair do jogo?', [
       {
@@ -56,14 +60,21 @@ export function Home() {
   }, []);
   return (
     <>
-      <StatusBar backgroundColor='#CCECFF' barStyle='dark-content'/>
+      <StatusBar backgroundColor='#CCECFF' barStyle='dark-content' />
       <Container source={ImageBackGround} resizeMode='stretch'>
-        <ModalPlayTutorial
-          title='Selecione uma opção'
-          visibliModal={modalvisible}
-          handleNavigation={()=> handlenaviagtion('tutorialIntroduction')}
-          handleNavigationPlay={()=> handlenaviagtion('selectOperations')}
-        />
+        <Modal
+          animationType='slide'
+          transparent
+          visible={modalvisible}
+        >
+          <ModalPlayTutorial
+
+            title='Selecione uma opção'
+            handleNavigation={() => handlenaviagtion('tutorialIntroduction')}
+            handleNavigationPlay={() => handlenaviagtion('selectOperations')}
+            handleOpenModal={()=> handlemodal()}
+          />
+        </Modal>
         <Header>
           <ContainerMenu>
             <ButtonOptions>
@@ -91,7 +102,7 @@ export function Home() {
         <Footer>
           <ContentFooter>
             <ImgControl source={iconcontrole} />
-            <ButtonStart style={{elevation:20}} onPress={() => setModalvisible(true)}>
+            <ButtonStart style={{ elevation: 20 }} onPress={() => setModalvisible(true)}>
               <TextButtonStart>Iniciar</TextButtonStart>
             </ButtonStart>
           </ContentFooter>

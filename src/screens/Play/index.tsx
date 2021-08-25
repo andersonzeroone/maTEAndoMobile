@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { ScrollView, ImageSourcePropType, Alert, BackHandler } from 'react-native';
+import { ScrollView, ImageSourcePropType, Alert, BackHandler, StatusBar } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ModalAnswer } from '../../components/ModalAnswer';
@@ -8,7 +8,7 @@ import { ModalAnswerError } from '../../components/ModalAnswerError';
 import { Load } from '../../components/Load';
 
 import logo from '../../assets/Logo.png';
-import home from '../../assets/home.png';
+import home from '../../assets/bntVoltar.png';
 import equal from '../../assets/igual.png';
 import interrogation from '../../assets/interrogacao.png';
 
@@ -274,6 +274,8 @@ export function play() {
   //   return <Load />
 
   return (
+    <>
+    <StatusBar /> 
     <ScrollView>
       <Container>
         <ModalAnswer
@@ -340,5 +342,6 @@ export function play() {
         </ContainerAlternatives>
       </Container>
     </ScrollView>
+    </>
   );
 }

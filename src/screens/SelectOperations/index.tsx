@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { CardPrimary } from '../../components/CardsPrimary';
 import { Alert, BackHandler } from 'react-native';
 
-import imageGoBack from '../../assets/bntVoltar.png';
+import imageGoBack from '../../assets/home.png';
 import addition from '../../assets/adicao.png';
 import subtraction from '../../assets/subtracao.png';
 import division from '../../assets/divisao.png';
@@ -54,7 +54,7 @@ export function selectOperations() {
   return (
     <Container>
       <ContentHeader>
-        <ButtonGoBack onPress={() => navigation.goBack()}>
+        <ButtonGoBack onPress={() => navigation.navigate('Home')}>
           <ImageButtonGoBack source={imageGoBack} />
         </ButtonGoBack>
         <Title>Selecione uma operação</Title>

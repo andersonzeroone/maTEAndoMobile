@@ -14,7 +14,7 @@ export const ContentModal = styled.View`
   align-items: center;
   justify-content: space-between;
 
-  padding: 20px;
+  padding: 10px 20px;
 
   width:60%;
   border-radius:15px;
@@ -26,10 +26,15 @@ export const ContentModal = styled.View`
 
 export const HeaderModal = styled.View`
   margin-bottom: 10%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
 `;
 
 export const TitleModal = styled.Text`
-  font-size: 30px;
+  font-size: 25px;
   font-weight: bold;
   color: #7018C9;
 `;
@@ -83,4 +88,8 @@ export const Icon = styled.Image`
 
   width: 48px;
   height: 40px;
+`;
+
+export const ButtonCancel = styled.TouchableOpacity`
+
 `;

@@ -22,8 +22,8 @@ export const Title = styled.Text`
 export const ButtonGoBack = styled.TouchableOpacity``;
 
 export const ImageButtonGoBack = styled.Image`
-  width: 45px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
 `;
 
 export const ButtonOptions = styled.TouchableOpacity`

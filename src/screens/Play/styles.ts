@@ -18,8 +18,8 @@ export const Header = styled.View`
 export const ButtonGoBackHome = styled.TouchableOpacity``;
 
 export const IconHome = styled.Image`
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 35px;
 `;
 
 export const Logo = styled.Image`
@@ -85,7 +85,7 @@ export const ContainerAlternatives = styled.View`
 
   width: 100%;
 
-  margin-top: 10%;
+  margin-top: 5%;
 `;
 
 export const CardAlternative = styled.TouchableOpacity`
