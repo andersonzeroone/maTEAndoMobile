@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
-import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import {useNavigation} from '@react-navigation/native';
 import { CardPrimary } from '../../components/CardsPrimary';
-import { Alert, BackHandler } from 'react-native';
+import {OptionsMutateLogOut} from '../../components/OptionsMutateLogOut';
+
+import { playSounds } from '../../utils/sounds/sound';
+import {getPlaySound, savePlaySound} from '../../utils/storage';
 
 import imageGoBack from '../../assets/home.png';
 import addition from '../../assets/adicao.png';
@@ -14,8 +16,6 @@ import {
   Container,
   ContentHeader,
   Title,
-  ButtonOptions,
-  TextMenu,
   ButtonGoBack,
   ImageButtonGoBack,
   ContentCardsOperations,
@@ -25,50 +25,102 @@ export function selectOperations() {
 
   const navigation = useNavigation();
 
-  function handleNavigation(nameOperation: string, imageOperation: any) {
+  const [sound, setSound] = useState<any>();
+
+  const [handlePlaySound, setHandlePlaySound] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadPlaySound();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+  
+  useEffect(()=>{
+    loadPlaySound();
+  },[]);
+
+  async function loadPlaySound(){
+    let data = await getPlaySound();
+
+    if(data === 'true'){
+      setHandlePlaySound(true)
+    }
+
+    if(data === 'false'){
+      setHandlePlaySound(false)
+    }
+
+    return data;
+  }
+
+  async function playSound(typeSound: string) {
+
+    const sound = await playSounds(typeSound)
+    setSound(sound);
+
+    if (!!sound) {
+      await sound.playAsync();
+    }
+
+  }
+
+  async function handleNaviagationGoBack() {
+    if (handlePlaySound) {
+      await playSound('feedback');
+    }
+
+    navigation.navigate('Home');
+  }
+
+  async function handleMutate(){
+    setHandlePlaySound(state => (!state));
+    handlePlaySound ? savePlaySound('false'): savePlaySound('true');
+    
+    if(!handlePlaySound){
+      await playSound('feedback');
+    }
+  }
+
+  async function handleNavigation(nameOperation: string, imageOperation: any) {
+    const valueSound =  await  loadPlaySound();
+
+    if(valueSound === 'false'){
+      navigation.navigate('selectObjects',{
+        operation: nameOperation,
+        imageOperation
+      });
+
+      return;
+    }
+
+    if (handlePlaySound) {
+      await playSound('feedback');
+    }
+
     navigation.navigate('selectObjects', {
       operation: nameOperation,
       imageOperation
     });
   }
 
-  const backAction = () => {
-    Alert.alert('Sair', 'Deseja sair do jogo?', [
-      {
-        text: 'Não',
-        onPress: () => null,
-        style: 'cancel'
-      },
-      { text: 'Sim', onPress: () => BackHandler.exitApp() }
-    ]);
-    return true;
-  };
-
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backAction);
-
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
-  }, []);
-
   return (
     <Container>
       <ContentHeader>
-        <ButtonGoBack onPress={() => navigation.navigate('Home')}>
+        <ButtonGoBack onPress={handleNaviagationGoBack}>
           <ImageButtonGoBack source={imageGoBack} />
         </ButtonGoBack>
+
         <Title>Selecione uma operação</Title>
+        <OptionsMutateLogOut
+          visibleMutate
+          visibleLogOut
+          playFeedBack={handlePlaySound}
+          handlePlayFeedBack={handleMutate}
+        />
 
-        <ButtonOptions onPress={backAction}>
-          <TextMenu>Sair</TextMenu>
-          <Feather
-            name='log-out'
-            size={20}
-            color='#7018C9'
-          />
-        </ButtonOptions>
       </ContentHeader>
-
       <ContentCardsOperations>
         <CardPrimary
           image={addition}

@@ -15,6 +15,7 @@ export const ContentHeader = styled.View`
 
 export const ContenteTitle = styled.View`
   flex-direction: row;
+  margin-right: -10%;
 `;
 
 export const Title = styled.Text`
@@ -25,18 +26,6 @@ export const Title = styled.Text`
 `;
 
 export const IconClick = styled.Image``;
- 
-export const ButtonOptions = styled.TouchableOpacity`
-  flex-direction: row;
-`;
-
-export const TextMenu = styled.Text`
-  font-size: 15px;
-  font-weight: bold;
-  margin-right: 1%;
-
-  color: #7018C9;
-`;
 
 export const ButtonGoBack = styled.TouchableOpacity``;
 

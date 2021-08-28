@@ -1,7 +1,6 @@
 import React from 'react';
 import { Modal,ModalProps } from 'react-native';
 
-
 import{
   ContainerModal,
   ContentModal,

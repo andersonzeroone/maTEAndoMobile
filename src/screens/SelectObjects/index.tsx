@@ -1,9 +1,12 @@
-import React, {useEffect}from 'react';
+import React, {useEffect, useState}from 'react';
 import {  Alert, BackHandler, ImageSourcePropType} from 'react-native';
-import { Feather } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
+import {OptionsMutateLogOut} from '../../components/OptionsMutateLogOut';
 import { CardPrimary } from '../../components/CardsPrimary';
+
+import {playSounds} from '../../utils/sounds/sound';
+import {getPlaySound, savePlaySound} from '../../utils/storage';
 
 import imageGoBack from '../../assets/bntVoltar.png';
 import iconClick from '../../assets/click.png';
@@ -18,27 +21,81 @@ import {
   ContenteTitle,
   IconClick,
   Title,
-  ButtonOptions,
-  TextMenu,
   ButtonGoBack,
   ImageButtonGoBack,
   ContentCardsOperations,
 } from './styles';
  
 interface Params{
-  operation:string,
-  imageOperation:ImageSourcePropType,
+  operation:string;
+  imageOperation:ImageSourcePropType;
 }
 export function selectObjects(){
   const navigation = useNavigation();
   const route = useRoute();
 
-  const dataRoute = route.params as Params;
-  function handleNavigation(objectSelect:any){
+  const {operation,imageOperation} = route.params as Params;
+  
+  const [sound, setSound] = useState<any>();
+
+  const[handlePlaySound,setHandlePlaySound] = useState(false);
+ 
+  useEffect(()=>{
+    loadPlaySound();
+  },[]);
+
+  async function loadPlaySound(){
+    let data = await getPlaySound();
+
+    if(data === 'true'){
+      setHandlePlaySound(true)
+    }
+
+    if(data === 'false'){
+      setHandlePlaySound(false)
+    }
+
+    return data;
+  }
+
+  async function playSound(typeSound:string){
+
+    const sound = await playSounds(typeSound)
+    setSound(sound);
+
+    if(!!sound){
+      await sound.playAsync(); 
+    }
+    
+  }
+
+  async function handleNaviagationGoBack(){
+    if(handlePlaySound){
+      await playSound('feedback');
+     }
+
+     navigation.navigate('selectOperations');
+  }
+
+  async function handleNavigation(objectSelect:any){
+    if(handlePlaySound){
+      await playSound('feedback');
+    }
+    
     navigation.navigate('play',{
-      ...dataRoute,
+      operation,
+      imageOperation,
       object:objectSelect
     });
+  }
+
+  async function handleMutate(){
+    setHandlePlaySound(state => (!state));
+    handlePlaySound ? savePlaySound('false'): savePlaySound('true');
+    
+    if(!handlePlaySound){
+      await playSound('feedback');
+    }
   }
 
   const backAction = () => {
@@ -63,7 +120,7 @@ export function selectObjects(){
   return(
     <Container>
       <ContentHeader>
-        <ButtonGoBack onPress={()=> navigation.goBack()}>
+        <ButtonGoBack onPress={handleNaviagationGoBack}>
           <ImageButtonGoBack source={imageGoBack}/>
         </ButtonGoBack>
 
@@ -72,14 +129,12 @@ export function selectObjects(){
           <IconClick source={iconClick}/>
         </ContenteTitle>
 
-        <ButtonOptions onPress={backAction}>
-          <TextMenu>Sair</TextMenu>
-          <Feather
-            name='log-out'
-            size={20}
-            color='#7018C9'
-          />
-        </ButtonOptions> 
+        <OptionsMutateLogOut
+          visibleMutate
+          visibleLogOut
+          playFeedBack={handlePlaySound}
+          handlePlayFeedBack={handleMutate}
+        />
       </ContentHeader>
 
       <ContentCardsOperations>

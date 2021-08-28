@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Modal, ModalProps, View } from 'react-native';
+import {  ModalProps, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import {playSounds} from '../../utils/sounds/sound';
 
 import iconControle from '../../assets/iconcontrole.png';
 import iconplay from '../../assets/play.png';
@@ -21,24 +23,44 @@ import {
 
 interface modalProps extends ModalProps {
   title: string;
-  handleNavigation: () => void;
-  handleNavigationPlay: () => void;
-  handleOpenModal: () => void;
+  playFeedBack:boolean;
+  handleCloseModal: () => void;
 }
 export function ModalPlayTutorial({
   title,
-  handleNavigation,
-  handleNavigationPlay,
-  handleOpenModal
+  handleCloseModal,
+  playFeedBack
 }: modalProps) {
 
+  const navigation = useNavigation();
+
+  const [sound, setSound] = useState<any>();
+
+  async function playSound(typeSound:string){
+
+    const sound = await playSounds(typeSound)
+    setSound(sound);
+
+    if(!!sound){
+      await sound.playAsync(); 
+    }
+    
+  }
+
+  async function handleNavigation(route:string) {
+    if(playFeedBack){
+      await playSound('feedback');
+     }
+
+     navigation.navigate(route);
+  }
 
   return (
     <>
       <ContainerModal>
         <ContentModal>
           <HeaderModal>
-            <ButtonCancel onPress={() => handleOpenModal()}>
+            <ButtonCancel onPress={() => handleCloseModal()}>
               <Feather
                 name='x-circle'
                 size={25}
@@ -54,7 +76,7 @@ export function ModalPlayTutorial({
             <Icon
               source={iconplay}
             />
-            <ButtonTutorial onPress={() => handleNavigation()}>
+            <ButtonTutorial onPress={() => handleNavigation('tutorialIntroduction')}>
               <TextButtonTutorial>Ver tutorial</TextButtonTutorial>
             </ButtonTutorial>
           </ModalOptions>
@@ -64,7 +86,7 @@ export function ModalPlayTutorial({
             <Icon
               source={iconControle}
             />
-            <ButtonStart onPress={() => handleNavigationPlay()}>
+            <ButtonStart onPress={() => handleNavigation('selectOperations')}>
               <TextButtonStart>Jogar</TextButtonStart>
             </ButtonStart>
           </ModalOptions>

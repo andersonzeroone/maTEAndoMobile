@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { Modal, StatusBar, BackHandler, Alert } from 'react-native';
+
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
+import {playSounds} from '../../utils/sounds/sound';
+import {getPlaySound} from '../../utils/storage';
+
 import { ModalPlayTutorial } from '../../components/ModalPlayTutorial';
+import {ModalOptionsHome} from '../../components/ModalOptionsHome';
 
 import ImageBackGround from '../../assets/Home.png';
 import logo from '../../assets/Logo.png';
@@ -24,22 +29,69 @@ import {
 } from './styles';
 
 export function Home() {
-
   const navigation = useNavigation();
 
-  const [modalvisible, setModalvisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalOptionsVisible, setModalOptionsVisible] = useState(false);
+  const [sound, setSound] = useState<any>();
+  const[handlePlaySound,setHandlePlaySound] = useState(true);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadPlaySound();
+    });
 
-  function handlenaviagtion(route: string) {
-    setModalvisible(state => (!state));
-    navigation.navigate(route);
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(()=>{
+    loadPlaySound();
+  },[]);
+
+  async function loadPlaySound(){
+    let data = await getPlaySound();
+
+    if(data === 'true'){
+      setHandlePlaySound(true)
+    }
+
+    if(data === 'false'){
+      setHandlePlaySound(false)
+    }
+
+    return data;
   }
 
-  function handlemodal() {
-    setModalvisible(state => (!state));
+  async function playSound(typeSound:string){
+    const sound = await playSounds(typeSound)
+    setSound(sound);
+
+    if(!!sound){
+      await sound.playAsync(); 
+    }
   }
 
+  async function handlemodal(modalType:string){
+    const valueSound =  await  loadPlaySound();
 
+    if(valueSound === 'false'){
+      if(modalType === 'options' ){
+        setModalOptionsVisible((state)=> !state);
+        return;
+      }
+      setModalVisible((state)=> !state);
+      return;
+    }
+
+    if(handlePlaySound){
+      await playSound('feedback');
+     }
+
+     modalType === 'options' ? (setModalOptionsVisible((state)=> !state)
+     ):(setModalVisible((state)=> !state))
+     
+  }
+   
   const backAction = () => {
     Alert.alert('Sair', 'Deseja sair do jogo?', [
       {
@@ -65,19 +117,29 @@ export function Home() {
         <Modal
           animationType='slide'
           transparent
-          visible={modalvisible}
+          visible={modalVisible}
         >
           <ModalPlayTutorial
-
             title='Selecione uma opção'
-            handleNavigation={() => handlenaviagtion('tutorialIntroduction')}
-            handleNavigationPlay={() => handlenaviagtion('selectOperations')}
-            handleOpenModal={()=> handlemodal()}
+            handleCloseModal={()=> handlemodal('modal')}
+            playFeedBack={handlePlaySound}
           />
         </Modal>
+
+        <Modal
+          animationType='slide'
+          transparent
+          visible={modalOptionsVisible}
+        >
+          <ModalOptionsHome
+            handleCloseModalOptions={()=> handlemodal('options')}
+            title='Selecione uma opção'
+            handleBackAction={backAction}
+          />
+        </Modal>       
         <Header>
           <ContainerMenu>
-            <ButtonOptions>
+            <ButtonOptions onPress={()=> handlemodal('options')}>
               <TextMenu>Opções</TextMenu>
               <Feather
                 name='settings'
@@ -85,16 +147,6 @@ export function Home() {
                 color='#7018C9'
               />
             </ButtonOptions>
-
-            <ButtonOptions onPress={backAction}>
-              <TextMenu>Sair</TextMenu>
-              <Feather
-                name='log-out'
-                size={25}
-                color='#7018C9'
-              />
-            </ButtonOptions>
-
           </ContainerMenu>
 
         </Header>
@@ -102,7 +154,7 @@ export function Home() {
         <Footer>
           <ContentFooter>
             <ImgControl source={iconcontrole} />
-            <ButtonStart style={{ elevation: 20 }} onPress={() => setModalvisible(true)}>
+            <ButtonStart style={{ elevation: 20 }} onPress={()=> handlemodal('modal')}>
               <TextButtonStart>Iniciar</TextButtonStart>
             </ButtonStart>
           </ContentFooter>

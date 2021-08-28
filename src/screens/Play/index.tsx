@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { ScrollView, ImageSourcePropType, Alert, BackHandler, StatusBar } from 'react-native';
-import { Feather } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+
 import { ModalAnswer } from '../../components/ModalAnswer';
 import { ModalAnswerError } from '../../components/ModalAnswerError';
+import { OptionsMutateLogOut } from '../../components/OptionsMutateLogOut';
 
-import { Load } from '../../components/Load';
+import { playSounds } from '../../utils/sounds/sound';
+import {getPlaySound, savePlaySound} from '../../utils/storage';
 
 import logo from '../../assets/Logo.png';
 import home from '../../assets/bntVoltar.png';
@@ -50,8 +52,6 @@ import {
   ButtonGoBackHome,
   IconHome,
   Logo,
-  ButtonOptions,
-  TextMenu,
   Content,
   ContainerOperation,
   ContainerElementsPrimary,
@@ -88,8 +88,8 @@ export function play() {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const [loading, setLoading] = useState(true);
   const { operation, imageOperation, object } = route.params as Params;
+
   const [resultOperation, setResultOperation] = useState<resultProps>(
     {} as resultProps
   );
@@ -109,16 +109,28 @@ export function play() {
 
   const [nivel, setNivel] = useState<number>(2);
 
-  const [mensageError, setMensageError] = useState(false);
+  const [sound, setSound] = useState<any>();
+
+  const [handlePlaySound, setHandlePlaySound] = useState(true);
 
   useEffect(() => {
-
-    // setTimeout(function () {
-    //   setLoading(false);
-    //   start(operation);
-    // }, 1000);
-    start(operation)
+    loadPlaySound();
+    start(operation);
   }, []);
+
+  async function loadPlaySound(){
+    let data = await getPlaySound();
+
+    if(data === 'true'){
+      setHandlePlaySound(true)
+    }
+
+    if(data === 'false'){
+      setHandlePlaySound(false)
+    }
+
+    return data;
+  }
 
   function start(nameOperation: string | null) {
     let limit = 4;
@@ -231,24 +243,56 @@ export function play() {
     setNumberElementPrimary(arrayElmentsPrimary);
   }
 
-  function checkedAlternative(value: number) {
-    if (value === resultOperation.result) {
+  async function checkedAlternative(value: number) {
+    if (value === resultOperation.result){
+      if(handlePlaySound){
+        await playSound('correct');
+      }
       setModalVisible(true);
 
       setTimeout(function () {
         setModalVisible(false);
-      }, 1000);
+      }, 2000);
 
       setNivel(state => (state + 1));
       start(operation);
       return;
     }
-
+    if(handlePlaySound){
+      await playSound('error');
+    }
     setModalErrorVisible(true);
 
     setTimeout(function () {
       setModalErrorVisible(false);
     }, 3000);
+  }
+
+  async function playSound(typeSound: string) {
+
+    const sound = await playSounds(typeSound)
+    setSound(sound);
+
+    if (!!sound) {
+      await sound.playAsync();
+    }
+
+  }
+
+  async function handleMutate(){
+    setHandlePlaySound(state => (!state));
+    handlePlaySound ? savePlaySound('false'): savePlaySound('true');
+    
+    if(!handlePlaySound){
+      await playSound('feedback');
+    }
+  }
+
+  async function handleNaviagationGoBack() {
+    if (handlePlaySound) {
+      await playSound('feedback');
+    }
+    navigation.navigate('selectOperations');
   }
 
   const backAction = useCallback(() => {
@@ -270,78 +314,75 @@ export function play() {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  // if (loading)
-  //   return <Load />
-
   return (
     <>
-    <StatusBar /> 
-    <ScrollView>
-      <Container>
-        <ModalAnswer
-          title='Parabéns você acertou!'
-          emoji='😀'
-          visibliModal={modalVisible}
-        />
-        <ModalAnswerError
-          title='Por favor tente novamente 😃'
-          visibliModal={modalErrorVisible}
-        />
-        <Header>
-          <ButtonGoBackHome onPress={() => navigation.navigate('selectOperations')}>
-            <IconHome source={home} />
-          </ButtonGoBackHome>
+      <StatusBar />
+      <ScrollView>
+        <Container>
+          <ModalAnswer
+            title='Parabéns você acertou!'
+            emoji='😀'
+            visibliModal={modalVisible}
+          />
+          <ModalAnswerError
+            title='Por favor tente novamente 😃'
+            visibliModal={modalErrorVisible}
+          />
+          <Header>
+            <ButtonGoBackHome onPress={handleNaviagationGoBack}>
+              <IconHome source={home} />
+            </ButtonGoBackHome>
 
-          <Logo source={logo} />
-          <ButtonOptions onPress={backAction}>
-            <TextMenu>Sair</TextMenu>
-            <Feather
-              name='log-out'
-              size={25}
-              color='#7018C9'
+            <Logo source={logo} />
+
+            <OptionsMutateLogOut
+              visibleMutate
+              visibleLogOut
+              playFeedBack={handlePlaySound}
+              handlePlayFeedBack={handleMutate}
             />
-          </ButtonOptions>
-        </Header>
 
-        <Content>
-          <ContainerOperation>
-            <ContainerElementsPrimary>
-              {numberElementPrimary.map((item, index) => (
-                <ElementsPrimary key={index} source={object} />
-              ))}
-            </ContainerElementsPrimary>
-            <ImageOperation source={imageOperation} />
+          </Header>
 
-            <ContainerElementsSecondary>
-              {numberElementSecondary.map((item, index) => (
-                <ElementsPrimary key={index} source={object} />
-              ))}
-            </ContainerElementsSecondary>
-          </ContainerOperation>
+          <Content>
+            <ContainerOperation>
+              <ContainerElementsPrimary>
+                {numberElementPrimary.map((item, index) => (
+                  <ElementsPrimary key={index} source={object} />
+                ))}
+              </ContainerElementsPrimary>
+              <ImageOperation source={imageOperation} />
+
+              <ContainerElementsSecondary>
+                {numberElementSecondary.map((item, index) => (
+                  <ElementsPrimary key={index} source={object} />
+                ))}
+              </ContainerElementsSecondary>
+            </ContainerOperation>
 
 
-          <ImageEqual source={equal} />
+            <ImageEqual source={equal} />
 
-          <ImageInterrogation source={interrogation} />
-        </Content>
-        <ContainerAlternatives>
-          {alternativesImages.map((item, index) => (
-            item.id < 10 ? (
-              <CardAlternative key={index} onPress={() => checkedAlternative(item.id)}>
-                < NumberCard source={imagesNumbers[item.id].image} />
-              </CardAlternative>
-            ) : (
-              <CardAlternative key={index} onPress={() => checkedAlternative(item.id)}>
-                <NumberCard source={imagesNumbers[alternativesImages[index].numberPrimary].image} />
-                <NumberCard source={imagesNumbers[alternativesImages[index].numberSencondary].image} />
-              </CardAlternative>
-            )
-          ))
+            <ImageInterrogation source={interrogation} />
+          </Content>
+          <ContainerAlternatives>
+            {alternativesImages.map((item, index) => (
+              item.id < 10 ? (
+                <CardAlternative key={index} onPress={() => checkedAlternative(item.id)}>
+                  < NumberCard source={imagesNumbers[item.id].image} />
+                </CardAlternative>
+              ) : (
+                <CardAlternative key={index} onPress={() => checkedAlternative(item.id)}>
+                  <NumberCard source={imagesNumbers[alternativesImages[index].numberPrimary].image} />
+                  <NumberCard source={imagesNumbers[alternativesImages[index].numberSencondary].image} />
+                </CardAlternative>
+              )
+            ))
 
-          }
-        </ContainerAlternatives>
-      </Container>
-    </ScrollView>
+            }
+          </ContainerAlternatives>
+        </Container>
+      </ScrollView>
     </>
   );
 }

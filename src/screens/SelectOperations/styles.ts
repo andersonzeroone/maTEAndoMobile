@@ -17,6 +17,8 @@ export const Title = styled.Text`
   font-weight: bold;
   font-size: 30px;
   color: #7018C9;
+
+  margin-right: -10%;
 `;
 
 export const ButtonGoBack = styled.TouchableOpacity``;
@@ -24,18 +26,6 @@ export const ButtonGoBack = styled.TouchableOpacity``;
 export const ImageButtonGoBack = styled.Image`
   width: 40px;
   height: 40px;
-`;
-
-export const ButtonOptions = styled.TouchableOpacity`
-  flex-direction: row;
-`;
-
-export const TextMenu = styled.Text`
-  font-size: 15px;
-  font-weight: bold;
-  margin-right: 1%;
-
-  color: #7018C9;
 `;
 
 export const ContentCardsOperations = styled.View`
