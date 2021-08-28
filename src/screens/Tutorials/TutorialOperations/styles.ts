@@ -12,6 +12,8 @@ export const Title = styled.Text`
   color: #7018C9;
   font-size: 40px;
   font-weight: bold;
+
+  margin-right: -95px;
 `;
 
 export const Text = styled.Text`
@@ -38,6 +40,14 @@ export const CardOperation = styled.View`
   justify-content: center;
 
   height: 100px;
+`;
+
+export const Header = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
 `;
 
 export const TitleOperation = styled.Text`

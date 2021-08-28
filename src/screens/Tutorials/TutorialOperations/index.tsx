@@ -1,6 +1,11 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Alert, ScrollView } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
+
+import { getPlaySound, savePlaySound } from '../../../utils/storage';
+import { playSounds } from '../../../utils/sounds/sound';
+
+import { OptionsMutateLogOut } from '../../../components/OptionsMutateLogOut';
 
 import addition from '../../../assets/adicao.png';
 import subtraction from '../../../assets/subtracao.png';
@@ -12,6 +17,7 @@ import imaNext from '../../../assets/bntAvancar.png';
 
 import {
   Container,
+  Header,
   Title,
   Text,
   ContainerOperations,
@@ -33,6 +39,63 @@ import {
 export function tutorialOperations() {
   const navigation = useNavigation();
 
+  const [sound, setSound] = useState<any>();
+  const [handlePlaySound, setHandlePlaySound] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadPlaySound();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+  
+  useEffect(()=>{
+    loadPlaySound();
+  },[]);
+
+  async function loadPlaySound(){
+    let data = await getPlaySound();
+
+    if(data === 'true'){
+      setHandlePlaySound(true)
+    }
+
+    if(data === 'false'){
+      setHandlePlaySound(false)
+    }
+
+    return data;
+  }
+  
+  async function playSound(typeSound: string) {
+
+    const sound = await playSounds(typeSound)
+    setSound(sound);
+
+    if (!!sound) {
+      await sound.playAsync();
+    }
+
+  }
+
+  async function handleMutate(){
+    setHandlePlaySound(state => (!state));
+    handlePlaySound ? savePlaySound('false'): savePlaySound('true');
+    
+    if(!handlePlaySound){
+      await playSound('feedback');
+    }
+  }
+
+  async function handleNavigation(router:string){
+    if (handlePlaySound) {
+      await playSound('feedback');
+    }
+
+    navigation.navigate(router);
+  }
+
   function handleAlert() {
     Alert.alert('Pular tutorial 📚', 'Deseja pular essa etapa?', [
       {
@@ -51,7 +114,16 @@ export function tutorialOperations() {
         showsVerticalScrollIndicator={false}
       >
         <Container>
+          <Header>  
+            <View/>
           <Title>Operações</Title>
+          <OptionsMutateLogOut
+              visibleMutate
+              visibleLogOut
+              playFeedBack={handlePlaySound}
+              handlePlayFeedBack={handleMutate}
+            />
+          </Header>
 
           <Text>
             As operações matemáticas são:
@@ -85,7 +157,7 @@ export function tutorialOperations() {
           </ContainerFeedBack>
 
           <Footer>
-            <ButtonBack onPress={() => navigation.goBack()}>
+            <ButtonBack onPress={() => handleNavigation('tutorialIntroduction')}>
               <ImageButtonBack source={imaBack} />
             </ButtonBack>
 
@@ -93,7 +165,7 @@ export function tutorialOperations() {
               <TextButtonJump>Pular</TextButtonJump>
             </ButtonJump>
 
-            <ButtonNext onPress={() => navigation.navigate('tutorialAddition')}>
+            <ButtonNext onPress={() => handleNavigation('tutorialAddition')}>
               <ImageButtonNext source={imaNext} />
             </ButtonNext>
           </Footer>

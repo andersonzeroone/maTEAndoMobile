@@ -1,7 +1,11 @@
-import React from 'react';
-import { View } from 'react-native';
-
+import React, { useEffect, useState } from 'react';
+import { Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
+import { getPlaySound, savePlaySound } from '../../../utils/storage';
+import { playSounds } from '../../../utils/sounds/sound';
+
+import { OptionsMutateLogOut } from '../../../components/OptionsMutateLogOut';
 
 import ex1 from '../../../assets/Ex1.png';
 import ex2 from '../../../assets/Ex2.png';
@@ -26,10 +30,67 @@ import {
   ButtonNext,
   ImageButtonNext,
 } from './styles';
-import { Alert, ScrollView } from 'react-native';
+import { func } from 'joi';
+
 
 export function tutorialIntroduction() {
   const navigation = useNavigation();
+  
+  const [sound, setSound] = useState<any>();
+  const [handlePlaySound, setHandlePlaySound] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadPlaySound();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+  
+  useEffect(()=>{
+    loadPlaySound();
+  },[]);
+
+  async function loadPlaySound(){
+    let data = await getPlaySound();
+
+    if(data === 'true'){
+      setHandlePlaySound(true)
+    }
+
+    if(data === 'false'){
+      setHandlePlaySound(false)
+    }
+
+    return data;
+  }
+  
+  async function playSound(typeSound: string) {
+
+    const sound = await playSounds(typeSound)
+    setSound(sound);
+
+    if (!!sound) {
+      await sound.playAsync();
+    }
+
+  }
+  async function handleMutate(){
+    setHandlePlaySound(state => (!state));
+    handlePlaySound ? savePlaySound('false'): savePlaySound('true');
+    
+    if(!handlePlaySound){
+      await playSound('feedback');
+    }
+  }
+
+  async function handleNavigation(router:string){
+    if (handlePlaySound) {
+      await playSound('feedback');
+    }
+
+    navigation.navigate(router);
+  }
 
   function handleAlert() {
     Alert.alert('Pular tutorial 📚', 'Deseja pular essa etapa?', [
@@ -51,13 +112,18 @@ export function tutorialIntroduction() {
       >
         <Container>
           <Header>
-            <ButtonGoBack onPress={() => navigation.goBack()}>
+            <ButtonGoBack onPress={()=> handleNavigation('Home')}>
               <ImageButtonGoBack source={imageGoBack} />
             </ButtonGoBack>
 
             <Title>Introdução</Title>
 
-            <View />
+            <OptionsMutateLogOut
+              visibleMutate
+              visibleLogOut
+              playFeedBack={handlePlaySound}
+              handlePlayFeedBack={handleMutate}
+            />
           </Header>
 
           <Text>
@@ -81,7 +147,7 @@ export function tutorialIntroduction() {
               <TextButtonJump>Pular</TextButtonJump>
             </ButtonJump>
 
-            <ButtonNext onPress={() => navigation.navigate('tutorialOperations')}>
+            <ButtonNext onPress={() => handleNavigation('tutorialOperations')}>
               <ImageButtonNext source={imaNext} />
             </ButtonNext>
           </Footer>
