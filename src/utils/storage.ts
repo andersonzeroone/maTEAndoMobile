@@ -1,29 +1,24 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { DataReport } from '../screens/Play';
-
-interface PlaySoundProps{
-  playfeedBack:boolean;
-}
 
 export async function savePlaySound(value:string): Promise<void>{
 
   try {
     await AsyncStorage.setItem('@maTEAando_PlaySound', value)
   } catch (e) {
-    // saving error
+    console.log('não  salvei o audio');
   }
 
 }
 
 export async function getPlaySound(){
-
   try {
     const value = await AsyncStorage.getItem('@maTEAando_PlaySound')
     if(value !== null){
       return value;
     }
 
-  } catch(e) {
+  }catch(e){
+    console.log('não peguei o audio');
   }
 
 }
@@ -32,7 +27,7 @@ export async function removePlaysound(){
   try {
     await AsyncStorage.removeItem('@maTEAando_PlaySound')
   } catch(e) {
-    // remove error
+    console.log('remmove o audio');
   }
 }
 

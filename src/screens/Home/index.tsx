@@ -90,6 +90,10 @@ export function Home() {
      modalType === 'options' ? (setModalOptionsVisible((state)=> !state)
      ):(setModalVisible((state)=> !state))
      
+     setTimeout(function () {
+      setModalOptionsVisible(false);
+      setModalVisible(false);
+    }, 8000);
   }
    
   const backAction = () => {

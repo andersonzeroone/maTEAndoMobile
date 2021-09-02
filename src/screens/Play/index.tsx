@@ -85,12 +85,18 @@ export interface alternativesProps {
 }
 
 export interface DataReport {
+  id: number;
   date: string;
-  operation: string;
+  nameOperation: string;
   corrects: number;
   incorrects: number;
+  calculation: string;
 }
 
+interface DataOperationProps {
+  nameOperation: string;
+  symbol: string;
+}
 export function play() {
 
   const navigation = useNavigation();
@@ -128,15 +134,18 @@ export function play() {
 
   const [report, setReport] = useState<DataReport[]>([]);
 
+  const [idOperation, setIdOperation] = useState<number>();
 
-  useEffect(()=>{
+  const [dataOperation, setDataOperation] = useState<DataOperationProps>({ } as DataOperationProps);
+
+  useEffect(() => {
     async function loadDataReport() {
       const data = await getDataReport();
       setReport(data);
     }
 
     loadDataReport()
-  },[]);
+  }, []);
 
   useEffect(() => {
     loadPlaySound();
@@ -154,23 +163,18 @@ export function play() {
 
     AppState.addEventListener("change", _handleAppStateChange);
 
-    // return () => {
-    //   AppState.removeEventListener("change", _handleAppStateChange);
-    // };
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+    };
 
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     saveReportStorage()
-    AppState.addEventListener("change", _handleAppStateChange);
+  }, [appStateVisible]);
 
-    // return () => {
-    //   AppState.removeEventListener("change", _handleAppStateChange);
-    // };
-  },[appStateVisible]);
-  
   async function _handleAppStateChange(nextAppState: any) {
-  
+
     if (
       !(appState.current.match(/inactive|background/) &&
         nextAppState === "active")
@@ -201,6 +205,10 @@ export function play() {
       setResultOperation(addtion);
       handleArrayElements(addtion);
       generateArrayAlternatives(addtion.result);
+      setDataOperation({
+        nameOperation: 'Adição',
+        symbol: ' + ',
+      });
     }
 
     if (nameOperation === 'subtraction') {
@@ -208,6 +216,10 @@ export function play() {
       setResultOperation(subtraction);
       handleArrayElements(subtraction);
       generateArrayAlternatives(subtraction.result);
+      setDataOperation({
+        nameOperation: 'Subtração',
+        symbol: ' - ',
+      });
     }
 
     if (nameOperation === 'division') {
@@ -215,6 +227,10 @@ export function play() {
       setResultOperation(division);
       handleArrayElements(division);
       generateArrayAlternatives(division.result);
+      setDataOperation({
+        nameOperation: 'Divisão',
+        symbol: ' / ',
+      });
     }
 
     if (nameOperation === 'multiplication') {
@@ -222,6 +238,10 @@ export function play() {
       setResultOperation(multiplication);
       handleArrayElements(multiplication);
       generateArrayAlternatives(multiplication.result);
+      setDataOperation({
+        nameOperation: 'Multiplicação',
+        symbol: ' x ',
+      });
     }
   }
 
@@ -299,18 +319,19 @@ export function play() {
         await playSound('correct');
       }
 
-      handleReport(operation, true);
-
       setModalVisible(true);
 
       setTimeout(function () {
         setModalVisible(false);
-      }, 2000);
+      }, 1000);
+
+      handleReport(operation, true);
 
       setNivel(state => (state + 1));
       start(operation);
       return;
     }
+
     handleReport(operation, false);
 
     if (handlePlaySound) {
@@ -320,7 +341,7 @@ export function play() {
 
     setTimeout(function () {
       setModalErrorVisible(false);
-    }, 3000);
+    }, 2000);
   }
 
   async function loadPlaySound() {
@@ -358,33 +379,47 @@ export function play() {
   }
 
   function handleReport(operation: string, rightAnswer: boolean) {
+    let id: number = 0;
+
     let indexArray: any = null;
+
     let corrects: number = 0;
     let incorrects: number = 0;
+
     const arrayReport = report;
 
     arrayReport.map((item, index) => {
-      if (item.date === dateNow) {
-        if (item.operation === operation) {
-          indexArray = index;
-          return;
-        }
+      if (item.id === idOperation) {
+        indexArray = index;
+        return;
       }
     });
 
 
     if (indexArray === null) {
-      rightAnswer ? corrects = 1 : incorrects = 1
+      let dateId = new Date();
+      id = dateId.getTime();
+
+      rightAnswer ? corrects = 1 : incorrects = 1;
+      let numberPrimary = (numberElementPrimary.length).toString();
+
+      let calculation = numberPrimary.concat(
+        dataOperation.symbol,
+        (numberElementSecondary.length).toString()
+      );
 
       arrayReport.push({
+        id,
         date: dateNow,
-        operation,
+        nameOperation: dataOperation.nameOperation,
         corrects,
-        incorrects
+        incorrects,
+        calculation
       });
 
+      // console.log(data);
       setReport(arrayReport);
-
+      setIdOperation(id);
       return;
     }
 
@@ -396,14 +431,12 @@ export function play() {
       arrayReport[indexArray].incorrects = report[indexArray].incorrects + 1;
     }
 
-
     setReport(arrayReport);
   }
 
   async function saveReportStorage() {
     if(report.length > 0){
       await saveDataReport(report);
-      console.log('chamei no background')
     }
   }
 

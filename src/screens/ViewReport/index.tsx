@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView, View,TouchableOpacity } from 'react-native';
+import { ScrollView, View,TouchableOpacity, Alert } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
 import { CardPrimary } from '../../components/CardsPrimary';
 import { OptionsMutateLogOut } from '../../components/OptionsMutateLogOut';
@@ -20,7 +21,9 @@ import {
   HeaderTable,
   TextLabel,
   RowTable,
-  TextInfo
+  TextInfo,
+  ButtonCleanData,
+  ButtonCleanDataText
 } from './styles';
 
 export function ViewReport() {
@@ -55,8 +58,22 @@ export function ViewReport() {
   }, []);
 
   async function deleteData(){
-    await RemoveDataReport()
+    await RemoveDataReport();
+
+    navigation.navigate('Home');
   }
+
+  const deleteDataCheck = useCallback(async() => {
+    Alert.alert('Deletar relatório', 'Deseja apagar dados do relatório?', [
+      {
+        text: 'Não',
+        onPress: () => null,
+        style: 'cancel'
+      },
+      { text: 'Sim', onPress:()=> deleteData() }
+    ]);
+    return true;
+  }, []);
 
   async function loadPlaySound() {
     let data = await getPlaySound();
@@ -102,15 +119,16 @@ export function ViewReport() {
 
 
   return (
-    <ScrollView>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+    >
       <Container>
         <ContentHeader>
           <ButtonGoBack onPress={handleNaviagationGoBack}>
             <ImageButtonGoBack source={imageGoBack} />
           </ButtonGoBack>
-          <TouchableOpacity onPress={deleteData}>
+
             <Title>Relatório</Title>
-          </TouchableOpacity>
          
           {/* <OptionsMutateLogOut
           visibleMutate
@@ -120,29 +138,36 @@ export function ViewReport() {
         /> */}
 
 
-          <View />
+          <ButtonCleanData onPress={deleteDataCheck}>
+            <Feather
+                name='trash'
+                size={18}
+                color='#7018C9'
+              />
+            <ButtonCleanDataText>Apagar</ButtonCleanDataText>
+          </ButtonCleanData>
         </ContentHeader>
 
         <Content>
           <HeaderTable>
             <TextLabel>Data</TextLabel>
             <TextLabel>Operação</TextLabel>
-            <TextLabel>Nº de acertos</TextLabel>
-            <TextLabel>Incorretas</TextLabel>
-            <TextLabel>Nº de jogadas</TextLabel>
+            <TextLabel>Calculo</TextLabel>
+            <TextLabel>Tentativas</TextLabel>
+            <TextLabel>Nº de erros</TextLabel>
+            {/* <TextLabel>Nº de jogadas</TextLabel> */}
           </HeaderTable>
           {
 
-            report.map((item, index) => (
-              <>
-              <RowTable key={index}>                
+            report.map((item, index) => ( 
+              <RowTable  key={index}  isDetach={(index%2 == 0 ? true:false)}>                
                 <TextInfo>{item.date}</TextInfo>
-                <TextInfo>{item.operation}</TextInfo>
-                <TextInfo>{item.corrects}</TextInfo>
+                <TextInfo>{item.nameOperation}</TextInfo>
+                <TextInfo>{item.calculation}</TextInfo>              
+                <TextInfo>{item.corrects + item.incorrects}</TextInfo>
                 <TextInfo>{item.incorrects}</TextInfo>
-                <TextInfo>{item.corrects+item.incorrects}</TextInfo>
+                {/* <TextInfo>{item.corrects+item.incorrects}</TextInfo> */}
               </RowTable>
-              </>
             ))
           }
         </Content>

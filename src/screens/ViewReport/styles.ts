@@ -1,9 +1,13 @@
-import styled from 'styled-components/native';
+import styled,{css} from 'styled-components/native';
+
+interface RowtableProps{
+  isDetach:boolean;
+}
 
 export const Container = styled.View`
   flex-direction: column;
   align-items: center;
-  padding: 2% 1% 0;
+  padding: 2%;
 `;
 
 export const ContentHeader = styled.View`
@@ -17,7 +21,6 @@ export const Title = styled.Text`
   font-weight: bold;
   font-size: 30px;
   color: #7018C9;
-
 `;
 
 export const ButtonGoBack = styled.TouchableOpacity``;
@@ -52,9 +55,16 @@ export const TextLabel = styled.Text`
   text-align: center;
 `;
 
-export const RowTable = styled.View`
+export const RowTable = styled.View<RowtableProps>`
   flex-direction: row;
   align-items: center;
+  padding: 1% 0;
+  ${(props)=>
+    props.isDetach &&
+      css`
+        background: #C9E3F2;
+      `
+  }
 
   margin-bottom: 1%;
 `;
@@ -65,3 +75,13 @@ export const TextInfo = styled.Text`
   text-align: center;
 `;
 
+
+export const ButtonCleanData = styled.TouchableOpacity`
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+`;
+
+export const ButtonCleanDataText = styled.Text`
+  margin-left:1%;
+`;
