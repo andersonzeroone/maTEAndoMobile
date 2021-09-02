@@ -67,6 +67,11 @@ export function multiplicationOperation(nivel:number){
     numberSecondary = getRandom(1,5);
   }
 
+  if (numberPrimary >=9){
+    numberPrimary = getRandom(1,4);
+    numberSecondary = getRandom(1,5);
+  }
+
   const dataResult = {
     numberPrimary,
     numberSecondary,

@@ -117,7 +117,7 @@ export function ModalOptionsHome({
               </Button>
             )}
 
-            <Button onPress={() => { }}>
+            <Button onPress={()=> navigation.navigate('ViewReport')}>
               <Feather
                 name='clipboard'
                 size={25}

@@ -10,6 +10,7 @@ import { tutorialMultiplication } from '../screens/Tutorials/TutorialMultiplicat
 import { selectOperations } from '../screens/SelectOperations';
 import { selectObjects } from '../screens/SelectObjects';
 import { play } from '../screens/Play';
+import { ViewReport } from '../screens/ViewReport';
 
 const stackRoutes = createStackNavigator();
 
@@ -21,6 +22,12 @@ const AppRoutes:React.FC= () =>(
       name='Home'
       component={Home}
     />
+
+    <stackRoutes.Screen
+      name='ViewReport'
+      component={ViewReport}
+    />
+    
 
     <stackRoutes.Screen
       name='tutorialIntroduction'

@@ -4,7 +4,7 @@ export const Container = styled.ImageBackground`
   flex: 1;
   flex-direction: column;
   align-items: center;
-  padding: 1%;
+  padding: 2%;
 `;
 
 export const Header = styled.View`

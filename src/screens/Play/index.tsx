@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { ScrollView, ImageSourcePropType, Alert, BackHandler, StatusBar } from 'react-native';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { Text, AppState, ScrollView, ImageSourcePropType, Alert, BackHandler, StatusBar } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { ModalAnswer } from '../../components/ModalAnswer';
@@ -7,7 +7,7 @@ import { ModalAnswerError } from '../../components/ModalAnswerError';
 import { OptionsMutateLogOut } from '../../components/OptionsMutateLogOut';
 
 import { playSounds } from '../../utils/sounds/sound';
-import {getPlaySound, savePlaySound} from '../../utils/storage';
+import { getPlaySound, savePlaySound, saveDataReport, getDataReport } from '../../utils/storage';
 
 import logo from '../../assets/Logo.png';
 import home from '../../assets/bntVoltar.png';
@@ -64,6 +64,7 @@ import {
   ContainerAlternatives,
   CardAlternative,
   NumberCard,
+  ContainerTable
 } from './styles';
 interface resultProps {
   numberPrimary: number;
@@ -83,15 +84,25 @@ export interface alternativesProps {
   numberSencondary: number,
 }
 
+export interface DataReport {
+  date: string;
+  operation: string;
+  corrects: number;
+  incorrects: number;
+}
+
 export function play() {
 
   const navigation = useNavigation();
   const route = useRoute();
+  const appState = useRef(AppState.currentState);
+
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
   const { operation, imageOperation, object } = route.params as Params;
 
   const [resultOperation, setResultOperation] = useState<resultProps>(
-    {} as resultProps
+    { } as resultProps
   );
 
   const [numberElementPrimary, setNumberElementPrimary] = useState<number[]>(
@@ -113,24 +124,63 @@ export function play() {
 
   const [handlePlaySound, setHandlePlaySound] = useState(true);
 
+  const [dateNow, setDateNow] = useState<string>('');
+
+  const [report, setReport] = useState<DataReport[]>([]);
+
+
+  useEffect(()=>{
+    async function loadDataReport() {
+      const data = await getDataReport();
+      setReport(data);
+    }
+
+    loadDataReport()
+  },[]);
+
   useEffect(() => {
     loadPlaySound();
     start(operation);
+
+    const date = new Date();
+
+    let year = date.getFullYear().toString();
+    let month = (date.getMonth() + 1).toString();
+    let day = date.getDate().toString();
+
+    let selectedDateString = day.concat('/', month, '/', year);
+
+    setDateNow(selectedDateString);
+
+    AppState.addEventListener("change", _handleAppStateChange);
+
+    // return () => {
+    //   AppState.removeEventListener("change", _handleAppStateChange);
+    // };
+
   }, []);
 
-  async function loadPlaySound(){
-    let data = await getPlaySound();
+  useEffect(()=>{
+    saveReportStorage()
+    AppState.addEventListener("change", _handleAppStateChange);
 
-    if(data === 'true'){
-      setHandlePlaySound(true)
+    // return () => {
+    //   AppState.removeEventListener("change", _handleAppStateChange);
+    // };
+  },[appStateVisible]);
+  
+  async function _handleAppStateChange(nextAppState: any) {
+  
+    if (
+      !(appState.current.match(/inactive|background/) &&
+        nextAppState === "active")
+    ) {
+      // console.log("O aplicativo voltou para o segundo plano!");
+      // alert('O aplicativo voltou para o primeiro plano!');
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
     }
-
-    if(data === 'false'){
-      setHandlePlaySound(false)
-    }
-
-    return data;
-  }
+  };
 
   function start(nameOperation: string | null) {
     let limit = 4;
@@ -244,10 +294,13 @@ export function play() {
   }
 
   async function checkedAlternative(value: number) {
-    if (value === resultOperation.result){
-      if(handlePlaySound){
+    if (value === resultOperation.result) {
+      if (handlePlaySound) {
         await playSound('correct');
       }
+
+      handleReport(operation, true);
+
       setModalVisible(true);
 
       setTimeout(function () {
@@ -258,7 +311,9 @@ export function play() {
       start(operation);
       return;
     }
-    if(handlePlaySound){
+    handleReport(operation, false);
+
+    if (handlePlaySound) {
       await playSound('error');
     }
     setModalErrorVisible(true);
@@ -266,6 +321,20 @@ export function play() {
     setTimeout(function () {
       setModalErrorVisible(false);
     }, 3000);
+  }
+
+  async function loadPlaySound() {
+    let data = await getPlaySound();
+
+    if (data === 'true') {
+      setHandlePlaySound(true)
+    }
+
+    if (data === 'false') {
+      setHandlePlaySound(false)
+    }
+
+    return data;
   }
 
   async function playSound(typeSound: string) {
@@ -279,16 +348,68 @@ export function play() {
 
   }
 
-  async function handleMutate(){
+  async function handleMutate() {
     setHandlePlaySound(state => (!state));
-    handlePlaySound ? savePlaySound('false'): savePlaySound('true');
-    
-    if(!handlePlaySound){
+    handlePlaySound ? savePlaySound('false') : savePlaySound('true');
+
+    if (!handlePlaySound) {
       await playSound('feedback');
     }
   }
 
+  function handleReport(operation: string, rightAnswer: boolean) {
+    let indexArray: any = null;
+    let corrects: number = 0;
+    let incorrects: number = 0;
+    const arrayReport = report;
+
+    arrayReport.map((item, index) => {
+      if (item.date === dateNow) {
+        if (item.operation === operation) {
+          indexArray = index;
+          return;
+        }
+      }
+    });
+
+
+    if (indexArray === null) {
+      rightAnswer ? corrects = 1 : incorrects = 1
+
+      arrayReport.push({
+        date: dateNow,
+        operation,
+        corrects,
+        incorrects
+      });
+
+      setReport(arrayReport);
+
+      return;
+    }
+
+    if (indexArray != null && rightAnswer) {
+      arrayReport[indexArray].corrects = report[indexArray].corrects + 1;
+    }
+
+    if (indexArray != null && !rightAnswer) {
+      arrayReport[indexArray].incorrects = report[indexArray].incorrects + 1;
+    }
+
+
+    setReport(arrayReport);
+  }
+
+  async function saveReportStorage() {
+    if(report.length > 0){
+      await saveDataReport(report);
+      console.log('chamei no background')
+    }
+  }
+
   async function handleNaviagationGoBack() {
+    saveReportStorage()
+
     if (handlePlaySound) {
       await playSound('feedback');
     }

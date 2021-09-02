@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  padding: 1% 2%;
+  padding: 2%;
   justify-content: center;
   align-items: center;
 `;
@@ -13,6 +13,13 @@ export const Header = styled.View`
   width: 100%;
 
   margin-bottom: 5%;
+`;
+
+export const ContainerTable = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
 `;
 
 export const ButtonGoBackHome = styled.TouchableOpacity``;
