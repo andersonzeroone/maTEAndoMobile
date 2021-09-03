@@ -122,6 +122,7 @@ export function Home() {
           animationType='slide'
           transparent
           visible={modalVisible}
+          supportedOrientations={['landscape','portrait']}
         >
           <ModalPlayTutorial
             title='Selecione uma opção'
@@ -134,6 +135,7 @@ export function Home() {
           animationType='slide'
           transparent
           visible={modalOptionsVisible}
+          supportedOrientations={['landscape','portrait']}
         >
           <ModalOptionsHome
             handleCloseModalOptions={()=> handlemodal('options')}

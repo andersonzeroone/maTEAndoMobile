@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView, View,TouchableOpacity, Alert } from 'react-native';
+import { ScrollView, View, TouchableOpacity, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import { CardPrimary } from '../../components/CardsPrimary';
 import { OptionsMutateLogOut } from '../../components/OptionsMutateLogOut';
 import { DataReport } from '../Play';
 import { playSounds } from '../../utils/sounds/sound';
-import { getPlaySound, savePlaySound, getDataReport, RemoveDataReport} from '../../utils/storage';
+import { getPlaySound, savePlaySound, getDataReport, RemoveDataReport } from '../../utils/storage';
 
 import imageGoBack from '../../assets/home.png';
+import notFound from '../../assets/not_found.png';
 
 import {
   Container,
@@ -23,7 +24,10 @@ import {
   RowTable,
   TextInfo,
   ButtonCleanData,
-  ButtonCleanDataText
+  ButtonCleanDataText,
+  ContainerNotFound,
+  ImageNotFound,
+  TextNotFound
 } from './styles';
 
 export function ViewReport() {
@@ -57,20 +61,20 @@ export function ViewReport() {
     loadPlaySound();
   }, []);
 
-  async function deleteData(){
+  async function deleteData() {
     await RemoveDataReport();
 
     navigation.navigate('Home');
   }
 
-  const deleteDataCheck = useCallback(async() => {
+  const deleteDataCheck = useCallback(async () => {
     Alert.alert('Deletar relatório', 'Deseja apagar dados do relatório?', [
       {
         text: 'Não',
         onPress: () => null,
         style: 'cancel'
       },
-      { text: 'Sim', onPress:()=> deleteData() }
+      { text: 'Sim', onPress: () => deleteData() }
     ]);
     return true;
   }, []);
@@ -128,8 +132,8 @@ export function ViewReport() {
             <ImageButtonGoBack source={imageGoBack} />
           </ButtonGoBack>
 
-            <Title>Relatório</Title>
-         
+          <Title>Relatório</Title>
+
           {/* <OptionsMutateLogOut
           visibleMutate
           visibleLogOut
@@ -140,10 +144,10 @@ export function ViewReport() {
 
           <ButtonCleanData onPress={deleteDataCheck}>
             <Feather
-                name='trash'
-                size={18}
-                color='#7018C9'
-              />
+              name='trash'
+              size={18}
+              color='#7018C9'
+            />
             <ButtonCleanDataText>Apagar</ButtonCleanDataText>
           </ButtonCleanData>
         </ContentHeader>
@@ -152,24 +156,33 @@ export function ViewReport() {
           <HeaderTable>
             <TextLabel>Data</TextLabel>
             <TextLabel>Operação</TextLabel>
-            <TextLabel>Calculo</TextLabel>
+            <TextLabel>Cálculo</TextLabel>
             <TextLabel>Tentativas</TextLabel>
             <TextLabel>Nº de erros</TextLabel>
             {/* <TextLabel>Nº de jogadas</TextLabel> */}
           </HeaderTable>
-          {
-
-            report.map((item, index) => ( 
-              <RowTable  key={index}  isDetach={(index%2 == 0 ? true:false)}>                
+          {report.length > 0 ? (
+            report.map((item, index) => (
+              <RowTable key={index} isDetach={(index % 2 == 0 ? true : false)}>
                 <TextInfo>{item.date}</TextInfo>
                 <TextInfo>{item.nameOperation}</TextInfo>
-                <TextInfo>{item.calculation}</TextInfo>              
+                <TextInfo>{item.calculation}</TextInfo>
                 <TextInfo>{item.corrects + item.incorrects}</TextInfo>
                 <TextInfo>{item.incorrects}</TextInfo>
                 {/* <TextInfo>{item.corrects+item.incorrects}</TextInfo> */}
               </RowTable>
             ))
+          ) : (
+            <ContainerNotFound>
+              <ImageNotFound
+                source={notFound}
+              />
+              <TextNotFound>Nenhuma informação encontrada.</TextNotFound>
+            </ContainerNotFound>)
+
+
           }
+
         </Content>
       </Container>
     </ScrollView>

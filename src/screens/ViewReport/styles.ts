@@ -85,3 +85,19 @@ export const ButtonCleanData = styled.TouchableOpacity`
 export const ButtonCleanDataText = styled.Text`
   margin-left:1%;
 `;
+
+
+export const ContainerNotFound = styled.View`
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  height: 80%;
+`;
+
+export const ImageNotFound = styled.Image`
+`;
+
+export const TextNotFound = styled.Text`
+  font-size: 24px;
+  color: #121212;
+`;
