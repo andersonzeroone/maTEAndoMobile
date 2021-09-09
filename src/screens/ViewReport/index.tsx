@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView, View, TouchableOpacity, Alert } from 'react-native';
+import { ScrollView, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 import { CardPrimary } from '../../components/CardsPrimary';
@@ -27,7 +27,10 @@ import {
   ButtonCleanDataText,
   ContainerNotFound,
   ImageNotFound,
-  TextNotFound
+  TextNotFound,
+  ContainerOprions,
+  ButtonViewResultReport,
+  ButtonViewResultReportText
 } from './styles';
 
 export function ViewReport() {
@@ -39,6 +42,8 @@ export function ViewReport() {
   const [handlePlaySound, setHandlePlaySound] = useState(true);
 
   const [report, setReport] = useState<DataReport[]>([]);
+
+  const [dateNow, setDateNow] = useState<string>('');
 
   useEffect(() => {
     async function loadDataReport() {
@@ -59,6 +64,17 @@ export function ViewReport() {
 
   useEffect(() => {
     loadPlaySound();
+
+    const date = new Date();
+
+    let year = date.getFullYear().toString();
+    let month = (date.getMonth() + 1).toString();
+    let day = date.getDate().toString();
+
+    let selectedDateString = day.concat('/', month, '/', year);
+
+    setDateNow(selectedDateString);
+
   }, []);
 
   async function deleteData() {
@@ -131,8 +147,7 @@ export function ViewReport() {
           <ButtonGoBack onPress={handleNaviagationGoBack}>
             <ImageButtonGoBack source={imageGoBack} />
           </ButtonGoBack>
-
-          <Title>Relatório</Title>
+            <Title>Relatório</Title>          
 
           {/* <OptionsMutateLogOut
           visibleMutate
@@ -141,6 +156,15 @@ export function ViewReport() {
           handlePlayFeedBack={handleMutate}
         /> */}
 
+        <ContainerOprions>
+        <ButtonViewResultReport onPress={()=>  navigation.navigate('ResultReport')}>
+            <Feather
+              name='bar-chart-2'
+              size={20}
+              color='#FFFFFF'
+            />
+            <ButtonViewResultReportText> Resultados</ButtonViewResultReportText>
+          </ButtonViewResultReport>
 
           <ButtonCleanData onPress={deleteDataCheck}>
             <Feather
@@ -150,6 +174,9 @@ export function ViewReport() {
             />
             <ButtonCleanDataText>Apagar</ButtonCleanDataText>
           </ButtonCleanData>
+
+        </ContainerOprions>
+
         </ContentHeader>
 
         <Content>

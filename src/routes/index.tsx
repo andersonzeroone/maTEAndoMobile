@@ -11,6 +11,7 @@ import { selectOperations } from '../screens/SelectOperations';
 import { selectObjects } from '../screens/SelectObjects';
 import { play } from '../screens/Play';
 import { ViewReport } from '../screens/ViewReport';
+import { ResultReport } from '../screens/ResultReport';
 
 const stackRoutes = createStackNavigator();
 
@@ -21,13 +22,7 @@ const AppRoutes:React.FC= () =>(
     <stackRoutes.Screen
       name='Home'
       component={Home}
-    />
-
-    <stackRoutes.Screen
-      name='ViewReport'
-      component={ViewReport}
-    />
-    
+    />    
 
     <stackRoutes.Screen
       name='tutorialIntroduction'
@@ -72,6 +67,18 @@ const AppRoutes:React.FC= () =>(
     <stackRoutes.Screen
       name='play'
       component={play}
+    />
+
+
+    <stackRoutes.Screen
+      name='ViewReport'
+      component={ViewReport}
+    />
+
+
+    <stackRoutes.Screen
+      name='ResultReport'
+      component={ResultReport}
     />
   </stackRoutes.Navigator>
 )

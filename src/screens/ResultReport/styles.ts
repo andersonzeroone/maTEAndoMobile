@@ -1,4 +1,5 @@
 import styled,{css} from 'styled-components/native';
+import {Picker} from '@react-native-picker/picker';
 
 interface RowtableProps{
   isDetach:boolean;
@@ -23,14 +24,11 @@ export const Title = styled.Text`
   color: #7018C9;
 `;
 
-export const ButtonGoBack = styled.TouchableOpacity`
-
-width: 30%;
-`;
+export const ButtonGoBack = styled.TouchableOpacity``;
 
 export const ImageButtonGoBack = styled.Image`
   width: 40px;
-  height: 40px;
+  height: 30px;
 `;
 
 export const Content = styled.View`
@@ -48,19 +46,20 @@ export const HeaderTable = styled.View`
   /* justify-content: space-around; */
   width: 100%;
 
-  margin: 5% 0 1% 0;
+  margin: 3% 0 1% 0;
 `;
 
 export const TextLabel = styled.Text`
   font-weight: bold;
   font-size: 20px;
-  width: 20%;
+  width: 30%;
   text-align: center;
 `;
 
 export const RowTable = styled.View<RowtableProps>`
   flex-direction: row;
   align-items: center;
+  width: 100%;
   padding: 1% 0;
   ${(props)=>
     props.isDetach &&
@@ -74,7 +73,7 @@ export const RowTable = styled.View<RowtableProps>`
 
 export const TextInfo = styled.Text`
   font-size: 16px;
-  width: 20%;
+  width: 30%;
   text-align: center;
 `;
 
@@ -93,8 +92,8 @@ export const ButtonCleanDataText = styled.Text`
 export const ContainerNotFound = styled.View`
   flex-direction: column;
   align-items: center;
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height:30%;
 `;
 
 export const ImageNotFound = styled.Image`
@@ -105,35 +104,72 @@ export const TextNotFound = styled.Text`
   color: #000;
 `;
 
+export const ContainerFilter = styled.View`
+  flex-direction: row;
+  width: 100%;
+  padding: 2% 0% 1% 0;
+  margin-top: 2%;
 
-export const ContainerOprions = styled.View`
+  border-bottom-width:1px;
+`;
+
+export const ContentFilter = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+`;
 
-  width: 30%;
-
-`;  
-
-export const ButtonViewResultReport = styled.TouchableOpacity`
-
+export const ButtonSetDate = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding: 1% 2%;
+  border-color: #7018C9;
+  border-width: 1px;
+  border-radius: 10px;
+`;
+
+export const DateText = styled.Text`
+  font-size: 16px;
+`;
+
+export const DateLabel = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 2% ;
+`;
+
+export const SelectContainer = styled.View`
+  background: #F2FBFF;
+  width:20%;
+  height: 40px;
+  border-width:1px;
+  border-color:#7018C9; 
+  border-radius:10px;
+  margin-right: 2%;
+`;
+
+export const PickerSelect = styled(Picker)`
+  color:#596C83;
+  width:100%;
+  border-width:3px;
+  height: 40px;
+`;
+
+export const ButtonSearchResults = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 
   background: #7018C9;
 
   border-radius: 10px;
 
-  padding: 2% 6%;
-
-  margin-right: 6%;
+  width: 14%;
+  padding: 2%;
 `;
 
-export const ButtonViewResultReportText = styled.Text`
+export const ButtonSearchResultsText = styled.Text`
   color: #FFFFFF;
 
   font-weight: bold;
-
-  font-size: 14px;
 `;

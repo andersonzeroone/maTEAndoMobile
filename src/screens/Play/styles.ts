@@ -92,7 +92,7 @@ export const CardAlternative = styled.TouchableOpacity`
 
   border-radius: 10px;
   /* background-color: #CCECFF; */
-  background: #B6DCF2;
+  background: #B5E9FF;
 `;
 
 export const NumberCard = styled.Image`
