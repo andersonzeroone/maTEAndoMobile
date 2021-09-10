@@ -93,7 +93,7 @@ export const ContainerNotFound = styled.View`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height:30%;
+  height:10%;
 `;
 
 export const ImageNotFound = styled.Image`
