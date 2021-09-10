@@ -92,7 +92,11 @@ export function tutorialIntroduction() {
     navigation.navigate(router);
   }
 
-  function handleAlert() {
+  async function handleAlert() {
+    if (handlePlaySound) {
+      await playSound('feedback');
+    }
+
     Alert.alert('Pular tutorial 📚', 'Deseja pular essa etapa?', [
       {
         text: 'Não 😊',
@@ -125,12 +129,12 @@ export function tutorialIntroduction() {
               handlePlayFeedBack={handleMutate}
             />
           </Header>
-
+{/* 
           <Text>
             Antes de iniciarmos o jogo, que tal entender um pouco sobre números e
             quantidades. A representação do número e da quantidade de maçãs.
             Exemplos:
-          </Text>
+          </Text> */}
 
           <ContainerExample>
             <ImageExample source={ex1} />

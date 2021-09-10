@@ -22,11 +22,10 @@ export function tutorialDivision() {
           <TutotialStructure
             nameOperation='Divisão'
             imageOperation={division}
-            description='É uma operação matemática com a finalidade de dividir, 
-        repartir. Exemplo:'
+            description=''
             imageExampleOperation={imgExample}
             numberFeedback={5}
-            nextScreen={() => navigation.navigate('tutorialMultiplication')}
+            screen='tutorialMultiplication'
           />
         </Container>
       </ScrollView>

@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Conteiner = styled.View`
-  padding: 30px 20px 20px;
+  padding: 2%;
 
   flex-direction: column;
   align-items: center;
@@ -10,16 +10,25 @@ export const Conteiner = styled.View`
 
 `;
 
+export const Header = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 export const Title = styled.Text`
   color: #7018C9;
   font-size: 30px;
   font-weight: bold;
+
 `
 
 export const ContenteNameImageOperation = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-right:-15%;
 `;
 
 export const NameOperation = styled.Text`
@@ -37,13 +46,14 @@ export const DescriptionOperation = styled.Text`
 `;
 
 export const ImageExampleOperation = styled.Image`
-  margin: 30px 0 40px;
+  /* margin: 30px 0 40px; */
 `;
 
 export const ContainerFeedBack = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin: 5% 0;
 `;
 
 export const TextFeedBack = styled.Text`

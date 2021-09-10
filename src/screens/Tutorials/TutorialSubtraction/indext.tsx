@@ -23,11 +23,10 @@ export function tutorialSubtraction() {
           <TutotialStructure
             nameOperation='Subtração'
             imageOperation={subtraction}
-            description='É uma operação matemática com a finalidade de 
-          diminuir, reduzir, tirar. Exemplo:'
+            description=''
             imageExampleOperation={imgExample}
             numberFeedback={4}
-            nextScreen={() => navigation.navigate('tutorialDivision')}
+            screen='tutorialDivision'
           />
         </Container>
       </ScrollView>

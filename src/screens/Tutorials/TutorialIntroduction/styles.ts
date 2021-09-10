@@ -1,18 +1,16 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  padding: 20px;
-
+  padding: 2%;
+  flex: 1;
   flex-direction: column;
-  align-items: center;
-  height: 100%;
+  justify-content: space-between;
 `;
 
 export const Header = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
 `;
 
 export const Title = styled.Text`
@@ -39,7 +37,9 @@ export const ContainerExample = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  padding: 2%;
+
+  margin:5% 0;
 `;
 
 export const ImageExample = styled.Image``;
@@ -48,8 +48,6 @@ export const ContainerFeedBack = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
-  margin: 2% 0 4%;
 `;
 
 export const TextFeedBack = styled.Text`
@@ -59,6 +57,9 @@ export const TextFeedBack = styled.Text`
 export const Footer = styled.View`
   flex-direction: row;
   align-items: center;
+  justify-content: center;
+
+  margin-top: 5%;
 `;
 
 export const ButtonJump = styled.TouchableOpacity`

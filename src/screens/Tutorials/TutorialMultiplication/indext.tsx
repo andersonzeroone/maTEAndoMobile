@@ -36,10 +36,10 @@ export function tutorialMultiplication() {
           <TutotialStructure
             nameOperation='Multiplicação'
             imageOperation={division}
-            description='É uma operação matemática com a finalidade de multiplicar, 
-          aumentar. Exemplo:'
+            description=''
             imageExampleOperation={imgExample}
             numberFeedback={6}
+            IsFuntionNext
             nextScreen={handleModalVisible}
           />
 

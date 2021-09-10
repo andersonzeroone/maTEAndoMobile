@@ -23,11 +23,10 @@ export function tutorialAddition() {
           <TutotialStructure
             nameOperation='Adicão'
             imageOperation={addition}
-            description='É uma operação matemática com a finalidade de somar, adicionar,
-        acrescentar. Exemplo:'
+            description=''
             imageExampleOperation={imgExample}
             numberFeedback={3}
-            nextScreen={() => navigation.navigate('tutorialSubtraction')}
+            screen='tutorialSubtraction'
           />
         </Container>
       </ScrollView>
