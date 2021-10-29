@@ -2,7 +2,8 @@ import styled from 'styled-components/native';
 
 export const Card = styled.TouchableOpacity`
   border-width: 2px;
-  border-color: #B46AFD;
+  /* border-color: #B46AFD; */
+  border-color: #0CA63F;
   border-radius: 10px;
 
   padding: 1%;

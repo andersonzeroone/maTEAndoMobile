@@ -86,7 +86,8 @@ export interface alternativesProps {
 
 export interface DataReport {
   id: number;
-  date: string;
+  date:Date;
+  dateView: string;
   nameOperation: string;
   corrects: number;
   incorrects: number;
@@ -410,7 +411,8 @@ export function play() {
 
       arrayReport.push({
         id,
-        date: dateNow,
+        date:dateId,
+        dateView: dateNow,
         nameOperation: dataOperation.nameOperation,
         corrects,
         incorrects,

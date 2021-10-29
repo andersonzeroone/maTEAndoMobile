@@ -191,7 +191,7 @@ export function ViewReport() {
           {report.length > 0 ? (
             report.map((item, index) => (
               <RowTable key={index} isDetach={(index % 2 == 0 ? true : false)}>
-                <TextInfo>{item.date}</TextInfo>
+                <TextInfo>{item.dateView}</TextInfo>
                 <TextInfo>{item.nameOperation}</TextInfo>
                 <TextInfo>{item.calculation}</TextInfo>
                 <TextInfo>{item.corrects + item.incorrects}</TextInfo>

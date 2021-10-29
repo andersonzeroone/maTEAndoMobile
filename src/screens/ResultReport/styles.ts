@@ -52,7 +52,7 @@ export const HeaderTable = styled.View`
 export const TextLabel = styled.Text`
   font-weight: bold;
   font-size: 20px;
-  width: 30%;
+  width: 25%;
   text-align: center;
 `;
 
@@ -73,7 +73,7 @@ export const RowTable = styled.View<RowtableProps>`
 
 export const TextInfo = styled.Text`
   font-size: 16px;
-  width: 30%;
+  width: 25%;
   text-align: center;
 `;
 

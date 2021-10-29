@@ -48,6 +48,7 @@ import { string } from "joi";
 interface FilterReportProps {
   operation: string;
   rateHit: number;
+  numberAttempts:number;
 }
 
 export function ResultReport() {
@@ -59,11 +60,14 @@ export function ResultReport() {
 
   const [dateNow, setDateNow] = useState<string>("");
 
-  const [dateInitial, setDateInitial] = useState<string>("");
-  const [dateFinish, setDateFinish] = useState<string>("");
+  const [dateInitialView, setDateInitialView] = useState<string>("");
+  const [dateFinishView, setDateFinishView] = useState<string>("");
 
-  const [isDateInitial, setIsDateInitial] = useState(false);
-  const [isDateFinish, setIsDateFinish] = useState(false);
+  const [dateInitial, setDateInitial] = useState(new Date());
+  const [dateFinish, setDateFinish] = useState(new Date())
+  
+  const [isDateInitialView, setIsDateInitialView] = useState(false);
+  const [isDateFinishView, setIsDateFinishView] = useState(false);
 
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -77,6 +81,7 @@ export function ResultReport() {
     }
 
     loadDataReport();
+   
   }, []);
 
   useEffect(() => {
@@ -95,11 +100,12 @@ export function ResultReport() {
     let selectedDateString = day.concat("/", month, "/", year);
 
     setDateNow(selectedDateString);
-    setDateInitial(selectedDateString);
-    setDateFinish(selectedDateString);
+    setDateInitialView(selectedDateString);
+    setDateFinishView(selectedDateString);
   }, []);
 
   function getCompact(operation: string) {
+    console.log(operation)
     let array: FilterReportProps[] = [];
     let arrayFilter: FilterReportProps[] = [];
 
@@ -116,12 +122,15 @@ export function ResultReport() {
         mergeMultiplication,
       ];
 
+
       array.map((item, index) => {
         if (item.operation !== "") {
           arrayFilter.push(array[index]);
         }
       });
 
+      // console.log(arrayFilter)
+   
       setFilterReport([...arrayFilter]);
 
       // console.log('__________________________________________________________')
@@ -132,15 +141,19 @@ export function ResultReport() {
       return;
     } else {
       let dataFilter = mergerData(report, operation);
-      console.log("__________________________________________________________");
-      console.log(
-        "1 - operação :",
-        dataFilter.operation,
-        "taxa de acertos:",
-        dataFilter.rateHit,
-        "%"
-      );
-
+      // console.log("__________________________________________________________");
+      // console.log(
+      //   "1 - operação :",
+      //   dataFilter.operation,
+      //   "taxa de acertos:",
+      //   dataFilter.rateHit,
+      //   "%",
+      //   'Dateinicial:', dateInitial, 'dataFinal:',dateFinish
+      // );
+      // if(dateInitial.getTime() === dateFinish.getTime()){
+      //   console.log('sadsdasd')
+      // }
+      console.log(dataFilter)
       dataFilter.operation != "" ? setFilterReport([dataFilter]) : null;
     }
   }
@@ -149,16 +162,18 @@ export function ResultReport() {
     let numberAttempts: number = 0;
     let rateHit: number = 0;
 
-    const arrayFilter = report.filter(
-      (data) =>
-        data.date >= dateInitial &&
-        data.date <= dateFinish &&
-        data.nameOperation === operation
-    );
+ 
+    const newInitiDate = new Date(dateInitial.getFullYear(),dateInitial.getMonth()
+    , dateInitial.getDate()-1 ,21,0, 0)
 
-    // if (operation === 'Multiplicação') {
-    //   console.log(arrayFilter)
-    // }
+    const newFinishDate = new Date(dateFinish.getFullYear(),dateFinish.getMonth()
+    , dateFinish.getDate(),20,59, 59)
+
+    // console.log('dateInicio:',newInitiDate, 'Final:',newFinishDate)
+   
+    const arrayFilter = report.filter((data) =>( 
+      new Date(data.date) >= newInitiDate&& new Date(data.date) <= newFinishDate) && (data.nameOperation === operation)
+    );
 
     numberAttempts = arrayFilter.reduce((total, valor) => {
       return total + valor.corrects + valor.incorrects;
@@ -177,30 +192,29 @@ export function ResultReport() {
     if (rateHit > 0) {
       return {
         operation,
+        numberAttempts,
         rateHit,
       };
     }
 
     return {
       operation: "",
+      numberAttempts:0,
       rateHit: 0,
     };
   }
 
   const showDatepicker = useCallback((dateType: string) => {
     setShow((state) => !state);
-    dateType === "initial" ? setIsDateInitial((state) => !state) : null;
-    dateType === "finish" ? setIsDateFinish((state) => !state) : null;
+    dateType === "initial" ? setIsDateInitialView((state) => !state) : null;
+    dateType === "finish" ? setIsDateFinishView((state) => !state) : null;
   }, []);
 
   function handleDateChange(event: any, date: Date | undefined) {
     if (Platform.OS === "android") {
       setShow(false);
     }
-
     if (date) {
-      setDate(date);
-
       let year = date.getFullYear().toString();
       let month = (date.getMonth() + 1).toString();
       let day = date.getDate().toString();
@@ -208,17 +222,19 @@ export function ResultReport() {
       // console.log('date', date, 'day',day, 'month', month, 'year', year)
       let selectedDateString = day.concat("/", month, "/", year);
 
-      // console.log('no set:', 'isDateInitial:', isDateInitial, 'isDateFinish', isDateFinish, 'date:', selectedDateString)
+      // console.log('no set:', 'isDateInitialView:', isDateInitialView, 'isDateFinishView', isDateFinishView, 'date:', selectedDateString)
 
-      if (isDateInitial) {
-        setDateInitial(selectedDateString);
-        setIsDateInitial((state) => !state);
+      if (isDateInitialView) {
+        setDateInitialView(selectedDateString);
+        setDateInitial(date);
+        setIsDateInitialView((state) => !state);
         return;
       }
 
-      if (isDateFinish) {
-        setDateFinish(selectedDateString);
-        setIsDateFinish((state) => !state);
+      if (isDateFinishView) {
+        setDateFinishView(selectedDateString);
+        setDateFinish(date)
+        setIsDateFinishView((state) => !state);
         return;
       }
     }
@@ -239,12 +255,12 @@ export function ResultReport() {
           <ContentFilter>
             <DateLabel>De:</DateLabel>
             <ButtonSetDate onPress={() => showDatepicker("initial")}>
-              <DateText>{dateInitial}</DateText>
+              <DateText>{dateInitialView}</DateText>
             </ButtonSetDate>
             <DateLabel>Até:</DateLabel>
 
             <ButtonSetDate onPress={() => showDatepicker("finish")}>
-              <DateText>{dateFinish}</DateText>
+              <DateText>{dateFinishView}</DateText>
             </ButtonSetDate>
             <DateLabel>Operação:</DateLabel>
             <SelectContainer>
@@ -290,16 +306,18 @@ export function ResultReport() {
             <HeaderTable>
               <TextLabel>Período</TextLabel>
               <TextLabel>Operação</TextLabel>
-              <TextLabel>Taxa de acertos (%)</TextLabel>
+              <TextLabel>Nº de tentativas</TextLabel>
+              <TextLabel>Acertos (%)</TextLabel>
             </HeaderTable>
           ) : null}
           {filterReport.length > 0 ? (
             filterReport.map((item, index) => (
               <RowTable key={index} isDetach={index % 2 == 0 ? true : false}>
                 <TextInfo>
-                  {dateInitial} - {dateFinish}
+                  {dateInitialView} - {dateFinishView}
                 </TextInfo>
                 <TextInfo>{item.operation}</TextInfo>
+                <TextInfo>{item.numberAttempts}</TextInfo>
                 <TextInfo>{item.rateHit} %</TextInfo>
               </RowTable>
             ))
