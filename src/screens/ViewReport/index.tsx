@@ -50,7 +50,6 @@ export function ViewReport() {
       const data = await getDataReport();
       setReport(data);
     }
-
     loadDataReport()
   }, []);
 
@@ -66,7 +65,7 @@ export function ViewReport() {
     loadPlaySound();
 
     const date = new Date();
-
+    console.log(date,'dia', date.getDate(), 'hora:', date.getUTCDate())
     let year = date.getFullYear().toString();
     let month = (date.getMonth() + 1).toString();
     let day = date.getDate().toString();

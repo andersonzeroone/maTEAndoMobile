@@ -47,12 +47,17 @@ export function divisionOperation(nivel:number){
 }
 
 function getNumbetTwo(numberPrimary:number,nivel:number){
-  let numberTwo = getRandom(1,nivel);
+  
+  const arrayListNumberSecondary = Array.from(Array(numberPrimary), (_, i) => i + 1)
 
-  if(numberPrimary % numberTwo === 0){
-    return numberTwo;
-  }
-  return numberPrimary;
+  const arrayFilterRestZero = arrayListNumberSecondary.filter(item => numberPrimary % item === 0);
+
+  console.log(arrayFilterRestZero)
+
+  let numberTwo = getRandom(0, arrayFilterRestZero.length - 1);
+
+  // console.log(arrayFilterRestZero[numberTwo])
+  return arrayFilterRestZero[numberTwo];
 }
 
 export function multiplicationOperation(nivel:number){
