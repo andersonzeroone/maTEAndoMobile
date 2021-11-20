@@ -52,7 +52,7 @@ function getNumbetTwo(numberPrimary:number,nivel:number){
 
   const arrayFilterRestZero = arrayListNumberSecondary.filter(item => numberPrimary % item === 0);
 
-  console.log(arrayFilterRestZero)
+  // console.log(arrayFilterRestZero)
 
   let numberTwo = getRandom(0, arrayFilterRestZero.length - 1);
 
